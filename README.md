@@ -2,7 +2,7 @@
 <div align="center">
 
 <a href="https://thebehaviorallab.netlify.app/">
-  <img src="[YOUR_DIRECT_IMGBB_IMAGE_URL](https://i.ibb.co.com/fzB8vp9B/TBL.png)" alt="The Behavioral Lab Logo" width="190">
+  <img src="https://i.ibb.co.com/fzB8vp9B/TBL.png" alt="The Behavioral Lab Logo" width="190">
 </a>
 
 # THE BEHAVIORAL LAB
