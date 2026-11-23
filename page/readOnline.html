@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reading — The Behavioral Lab</title>
+    <meta name="theme-color" content="#0c0c0b" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="../assets/logo/favicon.ico" sizes="any" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/root.css" />
+    <style>
+      body { height: 100dvh; overflow: hidden; display:flex; flex-direction:column; }
+      .reader-bar {
+        height: 64px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between;
+        gap: 16px; padding: 0 var(--gutter); border-bottom: 1px solid var(--line);
+        background: rgba(12,12,11,0.95); backdrop-filter: blur(10px); z-index: 20;
+      }
+      .reader-left { display: flex; align-items: center; gap: 14px; min-width: 0; }
+      .icon-btn {
+        width: 40px; height: 40px; flex-shrink: 0; display: grid; place-items: center;
+        border: 1px solid var(--line-strong); border-radius: 50%; color: var(--paper-muted);
+        transition: all var(--dur) var(--ease); background: transparent; cursor: pointer; text-decoration: none;
+      }
+      .icon-btn:hover { color: var(--paper); border-color: var(--stone); }
+      .reader-book { min-width: 0; }
+      .reader-label { font-size: 0.64rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brass); }
+      .reader-title {
+        font-family: var(--font-display); font-size: 0.95rem; color: var(--paper);
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: min(52vw, 560px);
+      }
+      .reader-main { flex: 1; position: relative; background: #111; min-height: 0; }
+      .reader-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; }
+      .reader-state {
+        position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 14px; padding: 24px; text-align: center; background: var(--ink); color: var(--paper-muted);
+      }
+      .spinner { width: 34px; height: 34px; border: 2px solid var(--line-strong); border-top-color: var(--brass); border-radius: 50%; animation: spin 0.9s linear infinite; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .reader-state h2 { font-family: var(--font-display); font-size: 1.5rem; color: var(--paper); margin: 0; }
+      .reader-state p { max-width: 28rem; line-height: 1.7; }
+      .reader-state[hidden] { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <header class="reader-bar">
+      <div class="reader-left">
+        <a href="./books.html" class="icon-btn" aria-label="Back to library"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></a>
+        <div class="reader-book">
+          <div class="reader-label">Reading</div>
+          <div class="reader-title" id="bookTitle">Loading…</div>
+        </div>
+      </div>
+      <button class="icon-btn" id="fullscreenBtn" aria-label="Toggle fullscreen" title="Toggle fullscreen">
+        <i class="fa-solid fa-expand" aria-hidden="true"></i>
+      </button>
+    </header>
+
+    <main class="reader-main" id="readerMain">
+      <div class="reader-state" id="loadingState">
+        <div class="spinner" aria-hidden="true"></div>
+        <p id="loadingText">Loading book…</p>
+      </div>
+      <div class="reader-state" id="errorState" hidden>
+        <i class="fa-solid fa-book-open" aria-hidden="true" style="font-size:1.8rem;color:var(--stone)"></i>
+        <h2>Book unavailable</h2>
+        <p id="errorText">We couldn’t load this book.</p>
+        <a href="./books.html" class="btn btn-primary btn-sm">Back to library</a>
+      </div>
+      <iframe id="bookFrame" class="reader-frame" title="Book reader" allow="autoplay; fullscreen" loading="eager"></iframe>
+    </main>
+
+    <script>
+      (async () => {
+        const params = new URLSearchParams(location.search);
+        const bookId = params.get('bookID');
+        const frame = document.getElementById('bookFrame');
+        const title = document.getElementById('bookTitle');
+        const loading = document.getElementById('loadingState');
+        const loadingText = document.getElementById('loadingText');
+        const err = document.getElementById('errorState');
+        const errText = document.getElementById('errorText');
+
+        function showError(msg) {
+          loading.hidden = true; frame.style.display = 'none'; errText.textContent = msg; err.hidden = false;
+          title.textContent = 'Unavailable';
+        }
+        if (!bookId) { showError('No book was selected. Pick one from the library.'); return; }
+
+        try {
+          const res = await fetch('../books.json');
+          if (!res.ok) throw new Error('Library request failed');
+          const books = await res.json();
+          const book = books.find(b => b.id === bookId);
+          if (!book) { showError('This book was not found in the library.'); return; }
+          title.textContent = book.title;
+          document.title = `${book.title} — The Behavioral Lab`;
+          frame.src = `https://drive.google.com/file/d/${encodeURIComponent(book.drive_id)}/preview`;
+          const slow = setTimeout(() => { if (!loading.hidden) loadingText.textContent = 'Still loading — Google Drive can take a moment.'; }, 8000);
+          frame.addEventListener('load', () => { clearTimeout(slow); loading.hidden = true; }, { once: true });
+          setTimeout(() => { if (!loading.hidden) { clearTimeout(slow); loading.hidden = true; } }, 20000);
+        } catch (e) {
+          console.error(e);
+          showError('Could not load the library. Check your connection and try again.');
+        }
+
+        const fsBtn = document.getElementById('fullscreenBtn');
+        const main = document.getElementById('readerMain');
+        fsBtn.addEventListener('click', async () => {
+          try {
+            if (!document.fullscreenElement) await (main.requestFullscreen?.() || main.webkitRequestFullscreen?.());
+            else await (document.exitFullscreen?.() || document.webkitExitFullscreen?.());
+          } catch (_) {}
+        });
+        document.addEventListener('fullscreenchange', () => {
+          const on = !!document.fullscreenElement;
+          fsBtn.querySelector('i').className = on ? 'fa-solid fa-compress' : 'fa-solid fa-expand';
+        });
+      })();
+    </script>
+  </body>
+</html>

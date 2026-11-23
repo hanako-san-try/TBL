@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>License &amp; Disclaimer — The Behavioral Lab</title>
+    <meta name="description" content="Copyright, sourcing, and disclaimer information for The Behavioral Lab." />
+    <meta name="theme-color" content="#0c0c0b" />
+    <link rel="icon" href="../assets/logo/favicon.ico" sizes="any" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/root.css" />
+    <style>
+      .lic-hero { padding: calc(var(--header-h) + 56px) 0 48px; border-bottom: 1px solid var(--line); }
+      .lic-title { font-family: var(--font-display); font-size: clamp(2.4rem, 7vw, 5rem); line-height: 0.98; margin: 16px 0; }
+      .lic-desc { color: var(--paper-muted); max-width: 38rem; line-height: 1.7; }
+      .lic-body { padding: 56px 0 88px; }
+      .lic-stack { display: flex; flex-direction: column; gap: 0; }
+      .lic-item { padding: 32px 0; border-bottom: 1px solid var(--line); display: grid; gap: 14px; }
+      .lic-num { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brass); }
+      .lic-item h2 { font-family: var(--font-display); font-size: clamp(1.4rem, 2.8vw, 2rem); line-height: 1.2; color: var(--paper); }
+      .lic-item p { color: var(--paper-muted); line-height: 1.8; max-width: 46rem; }
+      .lic-item strong { color: var(--paper); font-weight: 500; }
+      .lic-callout {
+        margin-top: 8px; padding: 18px 20px; border-left: 2px solid var(--brass);
+        background: var(--brass-dim); color: var(--paper); max-width: 46rem; line-height: 1.7; font-size: 0.95rem;
+      }
+      @media (min-width: 800px) { .lic-item { grid-template-columns: 140px 1fr; gap: 24px; } .lic-num { padding-top: 6px; } }
+    </style>
+  </head>
+  <body>
+    <a class="sr-only" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container">
+        <a href="../index.html" class="brand" aria-label="The Behavioral Lab home">TBL<span>.</span></a>
+        <nav class="header-nav" aria-label="Primary">
+          <a href="./books.html">Library</a>
+          <a href="../game/index.html">Vantage</a>
+          <a href="./license.html" aria-current="page">License</a>
+          <a href="./developer.html">Developer</a>
+        </nav>
+        <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="site-drawer" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+    <div class="drawer-backdrop" id="drawer-backdrop" data-menu-close></div>
+    <aside class="drawer" id="site-drawer" aria-label="Menu">
+      <div class="drawer-head"><span class="drawer-title">Menu</span><button class="drawer-close" data-menu-close aria-label="Close menu"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+      <div class="drawer-body"><nav class="drawer-links" aria-label="Mobile">
+        <a href="../index.html"><i class="fa-solid fa-house" aria-hidden="true"></i> Home</a>
+        <a href="./books.html"><i class="fa-solid fa-book" aria-hidden="true"></i> Library</a>
+        <a href="../game/index.html"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Vantage</a>
+        <a href="./license.html"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> License</a>
+        <a href="./developer.html"><i class="fa-solid fa-code" aria-hidden="true"></i> Developer</a>
+        <a href="https://chat.whatsapp.com/H2uoDKrlg4oLPKJllQZawc?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+      </nav></div>
+    </aside>
+
+    <main id="main" class="page-main">
+      <section class="lic-hero">
+        <div class="container">
+          <p class="section-label hero-animate hero-animate-d1">Information</p>
+          <h1 class="lic-title hero-animate hero-animate-d2">License &amp; Disclaimer</h1>
+          <p class="lic-desc hero-animate hero-animate-d3">How books are sourced, how visual assets are handled, and what this archive is for.</p>
+        </div>
+      </section>
+
+      <section class="lic-body">
+        <div class="container">
+          <div class="lic-stack">
+            <article class="lic-item reveal">
+              <div class="lic-num">01 / Books</div>
+              <div>
+                <h2>Copyrighted materials</h2>
+                <p>The Behavioral Lab is an educational archive. Some materials may be copyrighted. We do not claim ownership of these books. Books are sourced from publicly available search results and hosted for reading through Google Drive.</p>
+                <p class="lic-callout">If you are a copyright owner and believe your work should be removed, contact us and we’ll handle it promptly.</p>
+              </div>
+            </article>
+
+            <article class="lic-item reveal">
+              <div class="lic-num">02 / Images</div>
+              <div>
+                <h2>Cover art &amp; visuals</h2>
+                <p>Book covers are used for identification and UI purposes. They are sourced from public platforms and may be re-hosted for performance and reliability.</p>
+              </div>
+            </article>
+
+            <article class="lic-item reveal">
+              <div class="lic-num">03 / Open source</div>
+              <div>
+                <h2>Project code</h2>
+                <p>The Behavioral Lab website is an open-source project. The code can be viewed and improved on <a href="https://github.com/hanako-san-try/TBL" target="_blank" rel="noopener noreferrer" style="color:var(--paper);text-decoration:underline;text-underline-offset:3px">GitHub</a>.</p>
+              </div>
+            </article>
+
+            <article class="lic-item reveal">
+              <div class="lic-num">04 / Use</div>
+              <div>
+                <h2>Educational purpose</h2>
+                <p>Content on this site is provided for <strong>educational and informational purposes</strong>. The Behavioral Lab is not responsible for how readers apply ideas from the books.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand"><a href="../index.html" class="brand">TBL<span>.</span></a><p>A free archive of psychology and strategy books.</p></div>
+          <div class="footer-col"><h4>Navigate</h4><ul><li><a href="../index.html">Home</a></li><li><a href="./books.html">Library</a></li><li><a href="../game/index.html">Vantage</a></li></ul></div>
+          <div class="footer-col"><h4>Information</h4><ul><li><a href="./license.html">License</a></li><li><a href="./developer.html">Developer</a></li></ul></div>
+          <div class="footer-col"><h4>Community</h4><ul><li><a href="https://chat.whatsapp.com/H2uoDKrlg4oLPKJllQZawc?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer">WhatsApp</a></li><li><a href="https://github.com/hanako-san-try/TBL" target="_blank" rel="noopener noreferrer">GitHub</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><span>&copy; <span data-year></span> The Behavioral Lab</span><span>Built by <a href="https://github.com/hanako-san-try" target="_blank" rel="noopener noreferrer">Hanako San</a></span></div>
+      </div>
+    </footer>
+    <script src="../js/main.js"></script>
+  </body>
+</html>

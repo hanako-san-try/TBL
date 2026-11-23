@@ -1,0 +1,77 @@
+[
+  {
+    "id": "48laws",
+    "title": "The 48 Laws of Power",
+    "author": "Robert Greene",
+    "category": "Power",
+    "drive_id": "1LuSJh92Y7JuSWFVF_tGyt-CffkWXiChw",
+    "cover": "https://i.imgur.com/REu7kPH.png",
+    "year": 1998,
+    "description": "A ruthless handbook on the acquisition and defense of power.",
+    "tags": ["Machiavellian", "Strategy", "History", "Robert Greene"]
+  },
+  {
+    "id": "influence",
+    "title": "Influence: The Psychology of Persuasion",
+    "author": "Robert Cialdini",
+    "category": "Influence",
+    "drive_id": "1tLsJDkKx0oi06y2PhwHAM1TgEurH9pz0",
+    "cover": "https://i.imgur.com/YGe54Oa.jpeg",
+    "year": 1984,
+    "description": "The foundational text on the psychology of compliance and persuasion.",
+    "tags": ["Marketing", "Persuasion", "Behavioral Science"]
+  },
+  {
+    "id": "twpa78",
+    "title": "Talking with Psychopaths and Savages: A Journey into the Evil Mind",
+    "author": "Christopher Berry-Dee",
+    "category": "Psychology",
+    "drive_id": "1T8ASkxbsNt2YJuMyXHrKgzq34MV51SPV",
+    "cover": "https://i.imgur.com/AAYtReJ.jpeg",
+    "year": 2017,
+    "description": "An inside look at the minds of the world’s most notorious serial killers, told by the criminologist who sat across from them.",
+    "tags": [
+      "True Crime",
+      "Criminal Psychology",
+      "Serial Killers",
+      "Psychopaths",
+      "Criminology",
+      "Forensic Psychology",
+      "Non-Fiction",
+      "Prison Interviews",
+      "Christopher Berry-Dee",
+      "Crime & Justice",
+      "Evil Minds",
+      "Murder Cases",
+      "Behavioral Science",
+      "Biography & Memoir"
+    ]
+  },
+  {
+  "id": "TLOHN620",
+  "title": "The Laws of Human Nature",
+  "author": "Robert Greene",
+  "category": "Psychology",
+  "drive_id": "1Gc27EwCmGqvh78zvjhdaneOP2YT3MQvC",
+  "cover": "https://i.imgur.com/tvhpMh2.jpeg",
+  "year": 2018,
+  "description": "A practical guide to decoding people’s hidden motivations, mastering your own emotions, and navigating every social dynamic.",
+  "tags": [
+    "Psychology",
+    "Human Behavior",
+    "Self-Help",
+    "Strategy",
+    "Social Dynamics",
+    "Robert Greene",
+    "Emotional Intelligence",
+    "Persuasion",
+    "Non-Fiction",
+    "Personal Development",
+    "Power & Influence",
+    "Behavioral Science",
+    "History",
+    "Philosophy",
+    "Mindset"
+  ]
+}
+]

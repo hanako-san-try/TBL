@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vantage — Competitive Brain Training by TBL</title>
+  <meta name="description" content="Vantage is The Behavioral Lab's competitive brain arena. Duel in mental math, protect a daily streak, and watch your rating tell the truth." />
+  <meta name="theme-color" content="#080807" />
+  <meta property="og:title" content="Vantage — Outthink the clock" />
+  <meta property="og:description" content="Ten questions. Sixty seconds. One rating. Competitive brain training by The Behavioral Lab." />
+  <link rel="icon" href="../assets/logo/favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../css/root.css" data-fallbacks="/public/TBL/css/root.css,/TBL/css/root.css,../../css/root.css,../css/root.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+  <link rel="stylesheet" href="./css/game.css" data-fallbacks="/public/TBL/game/css/game.css,/TBL/game/css/game.css,../game/css/game.css,css/game.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+</head>
+<body class="game-page">
+  <a class="v-skip" href="#main">Skip to content</a>
+
+  <header class="v-header">
+    <div class="v-header-inner">
+      <a class="v-brand" href="./index.html" aria-label="Vantage by The Behavioral Lab">
+        <span class="v-brand-mark">VANTAGE<span>.</span></span>
+        <span class="v-brand-sub">by TBL</span>
+      </a>
+      <nav class="v-nav" aria-label="Vantage">
+        <a href="./index.html" aria-current="page">Arena</a>
+        <a href="./arcade.html">Arcade</a>
+        <a href="./play.html">Play</a>
+        <a href="./leaderboard.html">Leaderboard</a>
+        <a href="./profile.html">Profile</a>
+      </nav>
+      <div class="v-auth" data-auth-area>
+        <a class="v-auth-link" href="./login.html">Log in</a>
+        <a class="v-btn v-btn-signal v-btn-sm" href="./signup.html">Sign up</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="v-shell">
+    <section class="v-hero-stage">
+      <canvas class="v-field" data-signal-field aria-hidden="true"></canvas>
+      <div class="v-hero">
+        <div>
+          <p class="v-kicker v-rise">Season 01 · Competitive brain training</p>
+          <h1 class="v-rise v-rise-1">Outthink <span class="v-hero-accent">the clock.</span></h1>
+          <p class="v-lead v-rise v-rise-2">Vantage is TBL’s competitive brain arena. Ten questions, sixty seconds, one rating that tells the truth. Between duels, twenty-two arcade drills sharpen memory, logic, reflex and physics.</p>
+          <div class="v-hero-actions v-rise v-rise-3">
+            <a href="./play.html" class="v-btn v-btn-signal"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Enter the arena</a>
+            <a href="./play.html?mode=daily" class="v-btn">Today’s challenge</a>
+            <a href="./signup.html" class="v-btn v-btn-ghost" data-guest-only>Create account</a>
+          </div>
+          <div class="v-live-row v-rise v-rise-4">
+            <span><i class="v-live-dot" aria-hidden="true"></i> Live local rating</span>
+            <span>60s rounds</span>
+            <span>10 questions</span>
+            <span>ELO + streaks</span>
+          </div>
+        </div>
+
+        <aside class="v-card v-standing v-rise v-rise-4" aria-label="Your standing">
+          <div class="v-card-head">
+            <span data-auth-name>Guest</span>
+            <span class="v-chip">On this device</span>
+          </div>
+          <div class="v-standing-score">
+            <strong data-stat="rating">1000</strong>
+            <span>Rating</span>
+          </div>
+          <div class="v-standing-body">
+            <div class="v-row"><span class="v-row-label">Win streak</span><span class="v-row-value" data-stat="streak">0</span></div>
+            <div class="v-row"><span class="v-row-label">Accuracy</span><span class="v-row-value" data-stat="accuracy">0%</span></div>
+            <div class="v-row"><span class="v-row-label">Matches</span><span class="v-row-value" data-stat="games">0</span></div>
+            <div class="v-row"><span class="v-row-label">Level</span><span class="v-row-value is-signal" data-stat="level">1</span></div>
+          </div>
+          <div class="v-standing-foot">
+            <a href="./profile.html" class="v-btn v-btn-sm">Open profile</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="v-marquee" aria-hidden="true">
+      <div class="v-marquee-track">
+        <span>Mental math</span><span>1v1 duels</span><span>Daily streaks</span><span>ELO rating</span><span>Working memory</span><span>22 arcade drills</span><span>Accuracy first</span><span>Season 01</span>
+        <span>Mental math</span><span>1v1 duels</span><span>Daily streaks</span><span>ELO rating</span><span>Working memory</span><span>22 arcade drills</span><span>Accuracy first</span><span>Season 01</span>
+      </div>
+    </div>
+
+    <section class="v-section" aria-labelledby="modes-title">
+      <div class="v-section-head">
+        <div>
+          <p class="v-kicker">Modes</p>
+          <h2 id="modes-title">Choose the pressure.</h2>
+        </div>
+        <p>Quiet reps, daily discipline, or a live opponent. Each mode measures a different kind of composure.</p>
+      </div>
+
+      <div class="v-modes">
+        <article class="v-mode is-featured reveal">
+          <div class="v-mode-top">
+            <div class="v-mode-icon"><i class="fa-solid fa-bolt" aria-hidden="true"></i></div>
+            <span class="v-chip v-chip-live">Rated</span>
+          </div>
+          <h3>1v1 Duel</h3>
+          <p>Same clock, same format. Answer fast, stay accurate, and let the rating move. Play the CPU or open a live room.</p>
+          <div class="v-mode-foot">
+            <span class="v-mode-meta">CPU or live room</span>
+            <a href="./play.html?mode=duel" class="v-btn v-btn-signal v-btn-sm">Play duel</a>
+          </div>
+        </article>
+
+        <article class="v-mode reveal">
+          <div class="v-mode-top">
+            <div class="v-mode-icon"><i class="fa-solid fa-compass" aria-hidden="true"></i></div>
+            <span class="v-chip">Solo</span>
+          </div>
+          <h3>Practice Run</h3>
+          <p>Clean reps without the social pressure. Build speed and pattern recognition before you take it to a match.</p>
+          <div class="v-mode-foot">
+            <span class="v-mode-meta">No rating risk</span>
+            <a href="./play.html?mode=practice" class="v-btn v-btn-sm">Practice</a>
+          </div>
+        </article>
+
+        <article class="v-mode reveal">
+          <div class="v-mode-top">
+            <div class="v-mode-icon"><i class="fa-solid fa-sun" aria-hidden="true"></i></div>
+            <span class="v-chip">Daily</span>
+          </div>
+          <h3>Daily Challenge</h3>
+          <p>One set per day. The point is not volume — it is showing up and keeping the streak alive.</p>
+          <div class="v-mode-foot">
+            <span class="v-mode-meta">Once per day</span>
+            <a href="./play.html?mode=daily" class="v-btn v-btn-sm">Today’s set</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="v-section" aria-labelledby="format-title">
+      <div class="v-section-head">
+        <div>
+          <p class="v-kicker">The format</p>
+          <h2 id="format-title">Simple rules. Real pressure.</h2>
+        </div>
+        <p>No grind, no noise. A short, honest test of speed and accuracy that you can repeat every day.</p>
+      </div>
+
+      <div class="v-steps reveal">
+        <div class="v-step">
+          <div class="v-step-num">01 / PICK</div>
+          <h3>Choose a mode</h3>
+          <p>Practice, daily, CPU duel, or a live room with a friend. The format stays consistent.</p>
+        </div>
+        <div class="v-step">
+          <div class="v-step-num">02 / SOLVE</div>
+          <h3>Beat the clock</h3>
+          <p>Ten questions in sixty seconds. Difficulty climbs as the round progresses.</p>
+        </div>
+        <div class="v-step">
+          <div class="v-step-num">03 / REVIEW</div>
+          <h3>Move the rating</h3>
+          <p>Wins, losses, and draws update your ELO, streak, level, and match record.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="v-section" aria-labelledby="numbers-title">
+      <div class="v-section-head">
+        <div>
+          <p class="v-kicker">The numbers</p>
+          <h2 id="numbers-title">A small format with a long memory.</h2>
+        </div>
+      </div>
+      <div class="v-metrics reveal">
+        <div class="v-metric"><strong class="is-signal">60<span style="font-size:0.5em">s</span></strong><span>Per round</span></div>
+        <div class="v-metric"><strong>10</strong><span>Questions</span></div>
+        <div class="v-metric"><strong>24<span style="font-size:0.5em">h</span></strong><span>Streak window</span></div>
+        <div class="v-metric"><strong>1v1</strong><span>Head to head</span></div>
+      </div>
+    </section>
+
+    <section class="v-cta reveal" aria-labelledby="cta-title">
+      <p class="v-kicker">Your move</p>
+      <h2 id="cta-title">The clock is already <span>running.</span></h2>
+      <p>Take one round. If the rating moves, you earned it. If it doesn’t, you know exactly what to train next.</p>
+      <div class="v-cta-actions">
+        <a href="./play.html" class="v-btn v-btn-signal">Start a round</a>
+        <a href="./leaderboard.html" class="v-btn">See the standings</a>
+        <a href="./signup.html" class="v-btn v-btn-ghost" data-guest-only>Save your progress</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="v-footer">
+    <div class="v-footer-inner">
+      <p>© <span data-year></span> The Behavioral Lab</p>
+      <div class="v-footer-links">
+        <a href="../index.html">TBL</a>
+        <a href="../page/books.html">Library</a>
+        <a href="./arcade.html">Arcade</a>
+        <a href="./play.html">Play</a>
+        <a href="./leaderboard.html">Ranks</a>
+        <a href="./login.html">Log in</a>
+      </div>
+    </div>
+  </footer>
+
+  <nav class="v-tabbar" aria-label="Vantage mobile navigation">
+    <a href="./index.html" aria-current="page"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i>Arena</a>
+    <a href="./arcade.html"><i class="fa-solid fa-gamepad" aria-hidden="true"></i>Arcade</a>
+    <a href="./play.html"><i class="fa-solid fa-bolt" aria-hidden="true"></i>Play</a>
+    <a href="./leaderboard.html"><i class="fa-solid fa-ranking-star" aria-hidden="true"></i>Ranks</a>
+    <a href="./profile.html"><i class="fa-solid fa-user" aria-hidden="true"></i>Profile</a>
+  </nav>
+
+  <script src="../js/main.js"></script>
+  <script src="./js/game-common.js"></script>
+  <script src="./js/firebase-config.js"></script>
+  <script src="./js/vantage-auth.js"></script>
+  <script src="./js/game-ui.js"></script>
+  <script>
+    (() => {
+      const state = Vantage.load();
+      const set = (key, value) => {
+        document.querySelectorAll(`[data-stat="${key}"]`).forEach((el) => { el.textContent = value; });
+      };
+      set('rating', state.rating);
+      set('streak', state.streak);
+      set('accuracy', Vantage.accuracy(state) + '%');
+      set('games', state.gamesPlayed);
+      set('level', state.level);
+
+      // Signal field — lightweight canvas, pauses when hidden or reduced motion.
+      const canvas = document.querySelector('[data-signal-field]');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let width = 0, height = 0, points = [], raf = null, visible = true;
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        width = Math.max(1, rect.width);
+        height = Math.max(1, rect.height);
+        canvas.width = Math.round(width * dpr);
+        canvas.height = Math.round(height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const count = Math.min(48, Math.max(18, Math.round((width * height) / 24000)));
+        points = Array.from({ length: count }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.22,
+          vy: (Math.random() - 0.5) * 0.22,
+          r: Math.random() * 1.4 + 0.5
+        }));
+      }
+
+      function frame() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < points.length; i++) {
+          const p = points[i];
+          if (!reduce) {
+            p.x += p.vx; p.y += p.vy;
+            if (p.x < -20) p.x = width + 20; if (p.x > width + 20) p.x = -20;
+            if (p.y < -20) p.y = height + 20; if (p.y > height + 20) p.y = -20;
+          }
+          for (let j = i + 1; j < points.length; j++) {
+            const q = points[j];
+            const dx = p.x - q.x, dy = p.y - q.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 132) {
+              ctx.strokeStyle = `rgba(215,244,90,${0.12 * (1 - dist / 132)})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(q.x, q.y);
+              ctx.stroke();
+            }
+          }
+          ctx.fillStyle = 'rgba(215,244,90,0.42)';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        if (!reduce && visible) raf = requestAnimationFrame(frame);
+      }
+
+      resize();
+      frame();
+      window.addEventListener('resize', () => { resize(); if (reduce) frame(); }, { passive: true });
+      document.addEventListener('visibilitychange', () => {
+        visible = !document.hidden;
+        if (visible && !reduce) { cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
+        else cancelAnimationFrame(raf);
+      });
+    })();
+  </script>
+</body>
+</html>

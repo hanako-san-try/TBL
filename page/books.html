@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library — The Behavioral Lab</title>
+    <meta name="description" content="Browse the full archive of psychology and strategy books. Search by title, author, or topic." />
+    <meta name="theme-color" content="#0c0c0b" />
+    <link rel="icon" href="../assets/logo/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/logo/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/logo/apple-touch-icon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/root.css" />
+    <style>
+      .lib-hero { padding: calc(var(--header-h) + 56px) 0 40px; border-bottom: 1px solid var(--line); }
+      .lib-title { font-family: var(--font-display); font-size: clamp(2.4rem, 7vw, 5rem); line-height: 0.98; letter-spacing: 0.01em; margin: 16px 0; }
+      .lib-desc { color: var(--paper-muted); max-width: 36rem; line-height: 1.7; }
+
+      .lib-controls { padding: 28px 0; border-bottom: 1px solid var(--line); position: sticky; top: var(--header-h); background: rgba(12,12,11,0.92); backdrop-filter: blur(12px); z-index: 20; }
+      .controls-row { display: grid; gap: 14px; }
+      .search-wrap { position: relative; }
+      .search-wrap i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--stone); font-size: 0.9rem; }
+      .search-input {
+        width: 100%; padding: 13px 14px 13px 42px; background: var(--ink-soft);
+        border: 1px solid var(--line-strong); color: var(--paper); border-radius: var(--radius);
+        font-size: 0.95rem; transition: border-color var(--dur) var(--ease);
+      }
+      .search-input::placeholder { color: var(--stone); }
+      .search-input:focus { outline: none; border-color: var(--brass); }
+      .sort-select {
+        width: 100%; padding: 13px 40px 13px 14px; background: var(--ink-soft);
+        border: 1px solid var(--line-strong); color: var(--paper); border-radius: var(--radius);
+        font-size: 0.95rem; appearance: none; cursor: pointer;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238a857d' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5.5l6.5 6 6.5-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat; background-position: right 14px center;
+      }
+      .sort-select:focus { outline: none; border-color: var(--brass); }
+      .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+      .filters::-webkit-scrollbar { display: none; }
+      .filter-pill {
+        padding: 8px 14px; font-size: 0.74rem; letter-spacing: 0.04em; white-space: nowrap;
+        border: 1px solid var(--line-strong); color: var(--paper-muted); border-radius: 100px;
+        transition: all var(--dur) var(--ease); cursor: pointer; background: transparent;
+      }
+      .filter-pill:hover { color: var(--paper); border-color: var(--stone); }
+      .filter-pill.active { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+      @media (min-width: 720px) {
+        .controls-row { grid-template-columns: 1fr 220px; align-items: center; }
+        .filters { grid-column: 1 / -1; flex-wrap: wrap; overflow: visible; }
+      }
+
+      .lib-body { padding: 40px 0 80px; }
+      .lib-status { font-size: 0.82rem; color: var(--stone); margin-bottom: 24px; min-height: 1.4em; }
+      .books-grid { display: grid; gap: 28px 24px; grid-template-columns: repeat(2, minmax(0,1fr)); }
+      @media (min-width: 740px) { .books-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+      @media (min-width: 1060px) { .books-grid { grid-template-columns: repeat(4, minmax(0,1fr)); } }
+
+      .empty { display: none; padding: 64px 0; text-align: center; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .empty h3 { font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 8px; }
+      .empty p { color: var(--stone); margin-bottom: 20px; }
+
+      .scroll-top {
+        position: fixed; right: 20px; bottom: 20px; width: 44px; height: 44px;
+        background: var(--paper); color: var(--ink); border-radius: 50%; display: grid; place-items: center;
+        opacity: 0; pointer-events: none; transition: all var(--dur) var(--ease); z-index: 50;
+      }
+      .scroll-top.is-visible { opacity: 1; pointer-events: auto; }
+      .scroll-top:hover { background: var(--brass); }
+    </style>
+  </head>
+  <body>
+    <a class="sr-only" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container">
+        <a href="../index.html" class="brand" aria-label="The Behavioral Lab home">TBL<span>.</span></a>
+        <nav class="header-nav" aria-label="Primary">
+          <a href="./books.html" aria-current="page">Library</a>
+          <a href="../game/index.html">Vantage</a>
+          <a href="./license.html">License</a>
+          <a href="./developer.html">Developer</a>
+        </nav>
+        <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="site-drawer" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="drawer-backdrop" id="drawer-backdrop" data-menu-close></div>
+    <aside class="drawer" id="site-drawer" aria-label="Menu">
+      <div class="drawer-head">
+        <span class="drawer-title">Menu</span>
+        <button class="drawer-close" data-menu-close aria-label="Close menu"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+      </div>
+      <div class="drawer-body">
+        <nav class="drawer-links" aria-label="Mobile">
+          <a href="../index.html"><i class="fa-solid fa-house" aria-hidden="true"></i> Home</a>
+          <a href="./books.html"><i class="fa-solid fa-book" aria-hidden="true"></i> Library</a>
+        <a href="../game/index.html"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Vantage</a>
+          <a href="./license.html"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> License</a>
+          <a href="./developer.html"><i class="fa-solid fa-code" aria-hidden="true"></i> Developer</a>
+          <a href="https://chat.whatsapp.com/H2uoDKrlg4oLPKJllQZawc?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+        </nav>
+      </div>
+      <div class="drawer-foot">
+        <p class="drawer-note">Search, filter, and read from the full archive.</p>
+      </div>
+    </aside>
+
+    <main id="main" class="page-main">
+      <section class="lib-hero">
+        <div class="container">
+          <p class="section-label hero-animate hero-animate-d1">Archive</p>
+          <h1 class="lib-title hero-animate hero-animate-d2">Library</h1>
+          <p class="lib-desc hero-animate hero-animate-d3">Every book in the collection. Search by title or author, filter by topic, read online or download.</p>
+        </div>
+      </section>
+
+      <section class="lib-controls" aria-label="Library controls">
+        <div class="container">
+          <div class="controls-row">
+            <div class="search-wrap">
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              <label class="sr-only" for="searchInput">Search books</label>
+              <input type="search" id="searchInput" class="search-input" placeholder="Search title or author" autocomplete="off" />
+            </div>
+            <div>
+              <label class="sr-only" for="sortSelect">Sort books</label>
+              <select id="sortSelect" class="sort-select">
+                <option value="default">Default order</option>
+                <option value="title-asc">Title A–Z</option>
+                <option value="title-desc">Title Z–A</option>
+                <option value="year-desc">Newest first</option>
+                <option value="year-asc">Oldest first</option>
+              </select>
+            </div>
+            <div class="filters" id="filterContainer" role="group" aria-label="Filter by topic">
+              <button class="filter-pill active" data-tag="All" type="button">All</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="lib-body">
+        <div class="container">
+          <p class="lib-status" id="status" aria-live="polite"></p>
+          <div class="books-grid" id="books-grid">
+            <div><div class="skeleton sk-cover"></div><div class="skeleton sk-line sm"></div><div class="skeleton sk-line lg"></div></div>
+            <div><div class="skeleton sk-cover"></div><div class="skeleton sk-line sm"></div><div class="skeleton sk-line lg"></div></div>
+            <div><div class="skeleton sk-cover"></div><div class="skeleton sk-line sm"></div><div class="skeleton sk-line lg"></div></div>
+            <div><div class="skeleton sk-cover"></div><div class="skeleton sk-line sm"></div><div class="skeleton sk-line lg"></div></div>
+          </div>
+          <div class="empty" id="emptyState">
+            <h3>No books found</h3>
+            <p>Try a different search or clear the filter.</p>
+            <button class="btn btn-primary" id="resetBtn" type="button">Clear filters</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <button class="scroll-top" data-scroll-top aria-label="Scroll to top"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="../index.html" class="brand">TBL<span>.</span></a>
+            <p>A free archive of psychology and strategy books.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Navigate</h4>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="./books.html">Library</a></li><li><a href="../game/index.html">Vantage</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Information</h4>
+            <ul>
+              <li><a href="./license.html">License</a></li>
+              <li><a href="./developer.html">Developer</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Community</h4>
+            <ul>
+              <li><a href="https://chat.whatsapp.com/H2uoDKrlg4oLPKJllQZawc?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+              <li><a href="https://github.com/hanako-san-try/TBL" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; <span data-year></span> The Behavioral Lab</span>
+          <span>Built by <a href="https://github.com/hanako-san-try" target="_blank" rel="noopener noreferrer">Hanako San</a></span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+      (() => {
+        let allBooks = [], currentTag = 'All', searchQuery = '', sortBy = 'default';
+        const grid = document.getElementById('books-grid');
+        const empty = document.getElementById('emptyState');
+        const status = document.getElementById('status');
+        const searchInput = document.getElementById('searchInput');
+        const sortSelect = document.getElementById('sortSelect');
+        const filterContainer = document.getElementById('filterContainer');
+
+        async function init() {
+          try {
+            const res = await fetch('../books.json');
+            if (!res.ok) throw new Error(res.status);
+            allBooks = await res.json();
+            buildTags();
+            render();
+          } catch (e) {
+            console.error(e);
+            grid.innerHTML = '';
+            status.textContent = 'Could not load the library. Please refresh.';
+          }
+        }
+
+        function buildTags() {
+          const tags = [...new Set(allBooks.flatMap(b => b.tags || []))].sort((a,b)=>a.localeCompare(b));
+          tags.forEach(tag => {
+            const btn = document.createElement('button');
+            btn.type = 'button'; btn.className = 'filter-pill'; btn.dataset.tag = tag; btn.textContent = tag;
+            filterContainer.appendChild(btn);
+          });
+        }
+
+        function render() {
+          let list = allBooks.filter(b => {
+            const tagOk = currentTag === 'All' || (b.tags || []).includes(currentTag);
+            const q = searchQuery.toLowerCase();
+            const searchOk = !q || b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q);
+            return tagOk && searchOk;
+          });
+          if (sortBy === 'title-asc') list.sort((a,b)=>a.title.localeCompare(b.title));
+          else if (sortBy === 'title-desc') list.sort((a,b)=>b.title.localeCompare(a.title));
+          else if (sortBy === 'year-desc') list.sort((a,b)=>(b.year||0)-(a.year||0));
+          else if (sortBy === 'year-asc') list.sort((a,b)=>(a.year||0)-(b.year||0));
+
+          status.textContent = `${list.length} book${list.length === 1 ? '' : 's'}`;
+          if (!list.length) { grid.style.display = 'none'; empty.style.display = 'block'; return; }
+          empty.style.display = 'none'; grid.style.display = 'grid';
+          const esc = (s = '') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+          grid.innerHTML = list.map((b, i) => `
+            <article class="book-card reveal" style="transition-delay:${Math.min(i,8) * 50}ms">
+              <a class="book-cover-wrap" href="./readOnline.html?bookID=${encodeURIComponent(b.id)}" aria-label="Read ${esc(b.title)}">
+                <img class="book-cover" src="${esc(b.cover)}" alt="Cover of ${esc(b.title)}" loading="lazy" width="400" height="600" onerror="this.style.display='none'">
+                <span class="book-cover-overlay"><span class="btn btn-primary btn-sm" aria-hidden="true">Read</span></span>
+              </a>
+              <div class="book-meta">
+                <span class="book-cat">${esc(b.category || 'Book')}</span>
+                <h3 class="book-title">${esc(b.title)}</h3>
+                <p class="book-author">${esc(b.author)}</p>
+                <div class="book-actions">
+                  <a class="btn-read" href="./readOnline.html?bookID=${encodeURIComponent(b.id)}">Read</a>
+                  <a class="btn-dl" href="https://drive.google.com/uc?export=download&id=${encodeURIComponent(b.drive_id)}" target="_blank" rel="noopener noreferrer" aria-label="Download ${esc(b.title)}"><i class="fa-solid fa-download" aria-hidden="true"></i></a>
+                </div>
+              </div>
+            </article>`).join('');
+          const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          grid.querySelectorAll('.reveal').forEach(el => {
+            if (prefersReduced || !('IntersectionObserver' in window)) { el.classList.add('is-visible'); return; }
+            const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } }); }, { threshold: 0.08 });
+            io.observe(el);
+          });
+        }
+
+        searchInput.addEventListener('input', e => { searchQuery = e.target.value; render(); });
+        sortSelect.addEventListener('change', e => { sortBy = e.target.value; render(); });
+        filterContainer.addEventListener('click', e => {
+          const btn = e.target.closest('.filter-pill');
+          if (!btn) return;
+          filterContainer.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active'); currentTag = btn.dataset.tag; render();
+        });
+        document.getElementById('resetBtn').addEventListener('click', () => {
+          searchInput.value = ''; searchQuery = ''; sortBy = 'default'; sortSelect.value = 'default'; currentTag = 'All';
+          filterContainer.querySelectorAll('.filter-pill').forEach(b => b.classList.toggle('active', b.dataset.tag === 'All'));
+          render();
+        });
+
+        init();
+      })();
+    </script>
+  </body>
+</html>

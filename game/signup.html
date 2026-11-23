@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create account — Vantage by The Behavioral Lab</title>
+  <meta name="description" content="Create a Vantage account and keep your rating, streak, and match history attached to your name." />
+  <meta name="theme-color" content="#080807" />
+  <link rel="icon" href="../assets/logo/favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../css/root.css" data-fallbacks="/public/TBL/css/root.css,/TBL/css/root.css,../../css/root.css,../css/root.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+  <link rel="stylesheet" href="./css/game.css" data-fallbacks="/public/TBL/game/css/game.css,/TBL/game/css/game.css,../game/css/game.css,css/game.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+</head>
+<body class="auth-page" data-auth-page>
+  <a class="v-skip" href="#main">Skip to content</a>
+
+  <div class="auth-shell">
+    <aside class="auth-aside" aria-hidden="true">
+      <a class="v-brand" href="./index.html" aria-label="Vantage by The Behavioral Lab">
+        <span class="v-brand-mark">VANTAGE<span>.</span></span>
+        <span class="v-brand-sub">by TBL</span>
+      </a>
+      <div>
+        <p class="v-kicker">New player</p>
+        <h1>Make the clock <span>your problem.</span></h1>
+        <p class="v-lead">Create a player, take one round, and start a record that means something. No noise, no grind — just a clean test of speed and accuracy.</p>
+        <ul class="auth-note-list">
+          <li>Free account, email and password.</li>
+          <li>Your display name is what opponents see.</li>
+          <li>Firebase keeps the session across visits.</li>
+        </ul>
+      </div>
+      <p class="auth-aside-foot">TBL / Vantage / Season 01</p>
+    </aside>
+
+    <main class="auth-main" id="main">
+      <div class="auth-main-inner">
+        <a class="v-btn v-btn-sm auth-back" href="./index.html" aria-label="Back to Vantage"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Arena</a>
+
+        <a class="auth-brand" href="./index.html" aria-label="Vantage home">
+          <span class="v-brand-mark">VANTAGE<span>.</span></span>
+          <span class="v-brand-sub">by TBL</span>
+        </a>
+
+        <span class="auth-mode" data-auth-mode>Checking auth…</span>
+
+        <h1 class="auth-title">Create your player.</h1>
+        <p class="auth-sub">Already have a record? <a href="./login.html" id="loginLink">Log in instead</a>.</p>
+
+        <div class="auth-setup" id="setupNotice">
+          <strong>Local demo mode</strong>
+          <p>Firebase is not configured yet, so this account is stored in this browser. Add your web app config to <code>js/firebase-config.js</code> to switch to real Firebase Authentication.</p>
+        </div>
+
+        <div class="auth-error" id="authError" role="alert"></div>
+        <div class="auth-notice" id="authNotice" role="status"></div>
+
+        <form class="auth-form" id="signupForm" novalidate>
+          <div class="v-field">
+            <label for="name">Display name</label>
+            <input class="v-input" id="name" name="name" type="text" maxlength="24" autocomplete="nickname" placeholder="What should we call you?" required />
+          </div>
+          <div class="v-field">
+            <label for="email">Email</label>
+            <input class="v-input" id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required />
+          </div>
+          <div class="auth-row-2">
+            <div class="v-field">
+              <label for="password">Password</label>
+              <input class="v-input" id="password" name="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" required />
+            </div>
+            <div class="v-field">
+              <label for="confirm">Confirm password</label>
+              <input class="v-input" id="confirm" name="confirm" type="password" autocomplete="new-password" placeholder="Repeat password" required />
+            </div>
+          </div>
+          <div class="auth-strength" id="strength" data-level="0" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <p class="auth-hint" id="pwHint">Use 8+ characters. A passphrase beats a clever word.</p>
+
+          <label class="auth-check" for="terms">
+            <input id="terms" name="terms" type="checkbox" required />
+            <span>I agree to the arena rules and the <a class="auth-link" href="../page/books.html">TBL library terms</a>.</span>
+          </label>
+
+          <button class="v-btn v-btn-signal v-btn-block auth-submit" type="submit" id="submitBtn">Create account</button>
+        </form>
+
+        <div class="auth-divider">or</div>
+
+        <button class="auth-google" id="googleBtn" type="button">
+          <i class="fa-brands fa-google" aria-hidden="true"></i>
+          Sign up with Google
+        </button>
+
+        <p class="auth-foot">By creating an account you keep your display name, rating, and streak together. Match history remains on this device in the static build.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="./js/game-common.js"></script>
+  <script src="./js/firebase-config.js"></script>
+  <script src="./js/vantage-auth.js"></script>
+  <script src="./js/game-ui.js"></script>
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const nextParam = params.get('next');
+      const next = nextParam && !/^https?:|^\/\//i.test(nextParam) ? nextParam : './profile.html';
+      const form = document.getElementById('signupForm');
+      const nameInput = document.getElementById('name');
+      const email = document.getElementById('email');
+      const password = document.getElementById('password');
+      const confirm = document.getElementById('confirm');
+      const terms = document.getElementById('terms');
+      const errorBox = document.getElementById('authError');
+      const noticeBox = document.getElementById('authNotice');
+      const submit = document.getElementById('submitBtn');
+      const google = document.getElementById('googleBtn');
+      const setup = document.getElementById('setupNotice');
+      const strength = document.getElementById('strength');
+      const pwHint = document.getElementById('pwHint');
+      const loginLink = document.getElementById('loginLink');
+
+      loginLink.href = './login.html?next=' + encodeURIComponent(next);
+
+      function showError(message) {
+        errorBox.textContent = message;
+        errorBox.classList.add('is-on');
+        noticeBox.classList.remove('is-on');
+      }
+      function clearError() {
+        errorBox.classList.remove('is-on');
+        errorBox.textContent = '';
+      }
+      function showNotice(message) {
+        noticeBox.textContent = message;
+        noticeBox.classList.add('is-on');
+      }
+      function loading(on) {
+        submit.disabled = on;
+        google.disabled = on;
+        submit.textContent = on ? 'Creating…' : 'Create account';
+      }
+      function go() {
+        window.location.href = next;
+      }
+
+      function scorePassword(value) {
+        let score = 0;
+        if (value.length >= 8) score += 1;
+        if (value.length >= 12) score += 1;
+        if (/[a-z]/.test(value) && /[A-Z]/.test(value)) score += 1;
+        if (/\d/.test(value)) score += 1;
+        if (/[^A-Za-z0-9]/.test(value)) score += 1;
+        return Math.min(4, score);
+      }
+
+      password.addEventListener('input', () => {
+        const score = scorePassword(password.value);
+        strength.dataset.level = String(score);
+        const labels = ['Too short', 'Weak', 'Fair', 'Strong', 'Very strong'];
+        pwHint.textContent = password.value ? labels[score] + ' — 8+ characters is the minimum.' : 'Use 8+ characters. A passphrase beats a clever word.';
+        pwHint.classList.toggle('is-bad', password.value.length > 0 && password.value.length < 8);
+      });
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        clearError();
+        const displayName = nameInput.value.trim();
+        const address = email.value.trim();
+        const secret = password.value;
+        const repeated = confirm.value;
+
+        if (displayName.length < 2) { showError('Add a display name with at least 2 characters.'); nameInput.focus(); return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(address)) { showError('Enter a valid email address.'); email.focus(); return; }
+        if (secret.length < 8) { showError('Use at least 8 characters for your password.'); password.focus(); return; }
+        if (secret !== repeated) { showError('The two passwords do not match.'); confirm.focus(); confirm.select(); return; }
+        if (!terms.checked) { showError('Agree to the arena rules before creating an account.'); terms.focus(); return; }
+
+        loading(true);
+        try {
+          await VantageAuth.signUp({ name: displayName, email: address, password: secret });
+          go();
+        } catch (error) {
+          showError(VantageAuth.friendlyError(error));
+          loading(false);
+        }
+      });
+
+      google.addEventListener('click', async () => {
+        clearError();
+        loading(true);
+        try {
+          await VantageAuth.signInWithGoogle();
+          go();
+        } catch (error) {
+          showError(VantageAuth.friendlyError(error));
+          loading(false);
+        }
+      });
+
+      VantageAuth.ready().then(() => {
+        setup.classList.toggle('is-on', VantageAuth.mode === 'demo');
+        if (VantageAuth.currentUser) {
+          showNotice(`Already signed in as ${VantageAuth.currentUser.email || VantageAuth.currentUser.displayName}. Continue to your profile.`);
+          const link = document.createElement('a');
+          link.href = next;
+          link.className = 'v-btn v-btn-sm';
+          link.style.marginTop = '10px';
+          link.textContent = 'Continue';
+          noticeBox.appendChild(document.createElement('br'));
+          noticeBox.appendChild(link);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

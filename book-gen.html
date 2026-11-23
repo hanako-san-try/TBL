@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book JSON Generator — The Behavioral Lab</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#0c0c0b" />
+    <link rel="icon" href="./assets/logo/favicon.ico" sizes="any" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./css/root.css" />
+    <style>
+      .gen-main { padding: calc(var(--header-h) + 48px) 0 80px; }
+      .gen-wrap { width: min(100% - 2*var(--gutter), 760px); margin-inline: auto; }
+      .gen-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1; margin: 14px 0 8px; }
+      .gen-desc { color: var(--stone); margin-bottom: 36px; }
+      .form-grid { display: grid; gap: 16px; }
+      @media (min-width: 640px) { .form-grid.cols-2 { grid-template-columns: 1fr 1fr; } }
+      .field label { display: block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper-muted); margin-bottom: 8px; }
+      .field input, .field select, .field textarea {
+        width: 100%; padding: 13px 14px; background: var(--ink-soft); border: 1px solid var(--line-strong);
+        color: var(--paper); border-radius: var(--radius); font-size: 0.95rem;
+      }
+      .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--brass); }
+      .field textarea { resize: vertical; min-height: 96px; }
+      .gen-actions { margin-top: 24px; }
+      .output { margin-top: 32px; border: 1px solid var(--line); background: var(--ink-soft); padding: 20px; position: relative; }
+      .output pre { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 0.84rem; color: #b9d7b0; white-space: pre-wrap; word-break: break-word; line-height: 1.65; margin: 0; overflow-x: auto; }
+      .copy-btn {
+        position: absolute; top: 12px; right: 12px; padding: 8px 12px; font-size: 0.72rem; font-weight: 600;
+        letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid var(--line-strong); color: var(--paper-muted);
+        background: var(--ink); border-radius: var(--radius); cursor: pointer;
+      }
+      .copy-btn:hover { color: var(--paper); border-color: var(--stone); }
+    </style>
+  </head>
+  <body>
+    <a class="sr-only" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container">
+        <a href="./index.html" class="brand" aria-label="The Behavioral Lab home">TBL<span>.</span></a>
+        <nav class="header-nav" aria-label="Primary">
+          <a href="./page/books.html">Library</a>
+          <a href="./game/index.html">Vantage</a>
+          <a href="./page/license.html">License</a>
+          <a href="./page/developer.html">Developer</a>
+        </nav>
+        <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="site-drawer" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
+    </header>
+    <div class="drawer-backdrop" id="drawer-backdrop" data-menu-close></div>
+    <aside class="drawer" id="site-drawer" aria-label="Menu">
+      <div class="drawer-head"><span class="drawer-title">Menu</span><button class="drawer-close" data-menu-close aria-label="Close menu"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+      <div class="drawer-body"><nav class="drawer-links" aria-label="Mobile">
+        <a href="./index.html"><i class="fa-solid fa-house" aria-hidden="true"></i> Home</a>
+        <a href="./page/books.html"><i class="fa-solid fa-book" aria-hidden="true"></i> Library</a>
+        <a href="./game/index.html"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Vantage</a>
+        <a href="./page/license.html"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> License</a>
+        <a href="./page/developer.html"><i class="fa-solid fa-code" aria-hidden="true"></i> Developer</a>
+      </nav></div>
+    </aside>
+
+    <main id="main" class="page-main gen-main">
+      <div class="gen-wrap">
+        <p class="section-label">Admin</p>
+        <h1 class="gen-title">Book JSON generator</h1>
+        <p class="gen-desc">Generate a book entry for <code style="color:var(--paper-muted)">books.json</code>.</p>
+
+        <form id="genForm" class="form-grid" novalidate>
+          <div class="form-grid cols-2">
+            <div class="field"><label for="id">Book ID</label><input id="id" required placeholder="48laws" autocomplete="off" /></div>
+            <div class="field"><label for="category">Category</label>
+              <select id="category"><option>Psychology</option><option>Power</option><option>Influence</option><option>Strategy</option></select>
+            </div>
+          </div>
+          <div class="field"><label for="title">Title</label><input id="title" required placeholder="The 48 Laws of Power" /></div>
+          <div class="field"><label for="author">Author</label><input id="author" required placeholder="Robert Greene" /></div>
+          <div class="field"><label for="drive_id">Google Drive ID</label><input id="drive_id" required placeholder="1LuSJh..." /></div>
+          <div class="field"><label for="cover">Cover image URL</label><input id="cover" type="url" placeholder="https://..." /></div>
+          <div class="form-grid cols-2">
+            <div class="field"><label for="year">Year</label><input id="year" type="number" min="0" max="2100" placeholder="1998" /></div>
+            <div class="field"><label for="tags">Tags</label><input id="tags" placeholder="Strategy, History" /></div>
+          </div>
+          <div class="field"><label for="description">Description</label><textarea id="description" placeholder="A brief summary..."></textarea></div>
+          <div class="gen-actions"><button type="submit" class="btn btn-primary">Generate JSON</button></div>
+        </form>
+
+        <div class="output" id="output" hidden>
+          <button class="copy-btn" id="copyBtn" type="button"><i class="fa-solid fa-copy" aria-hidden="true"></i> Copy</button>
+          <pre id="jsonOut"></pre>
+        </div>
+      </div>
+    </main>
+
+    <script src="./js/main.js"></script>
+    <script>
+      const form = document.getElementById('genForm');
+      const out = document.getElementById('output');
+      const pre = document.getElementById('jsonOut');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const val = id => document.getElementById(id).value.trim();
+        if (!val('drive_id')) { document.getElementById('drive_id').focus(); return; }
+        const data = {
+          id: val('id') || 'untitled',
+          title: val('title') || 'Untitled',
+          author: val('author') || 'Unknown',
+          category: val('category'),
+          drive_id: val('drive_id'),
+          cover: val('cover'),
+          year: parseInt(val('year'), 10) || null,
+          description: val('description'),
+          tags: val('tags') ? val('tags').split(',').map(t => t.trim()).filter(Boolean) : []
+        };
+        pre.textContent = JSON.stringify(data, null, 2) + ',';
+        out.hidden = false;
+        out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+      document.getElementById('copyBtn').addEventListener('click', async () => {
+        const text = pre.textContent;
+        try { await navigator.clipboard.writeText(text); } catch (_) {
+          const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+        }
+        const btn = document.getElementById('copyBtn');
+        btn.innerHTML = '<i class="fa-solid fa-check" aria-hidden="true"></i> Copied';
+        setTimeout(() => btn.innerHTML = '<i class="fa-solid fa-copy" aria-hidden="true"></i> Copy', 1600);
+      });
+    </script>
+  </body>
+</html>

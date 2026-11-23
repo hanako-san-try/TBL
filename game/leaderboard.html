@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboard — Vantage by The Behavioral Lab</title>
+  <meta name="description" content="Vantage standings — ratings, accuracy, and streaks from The Behavioral Lab's competitive brain arena." />
+  <meta name="theme-color" content="#080807" />
+  <link rel="icon" href="../assets/logo/favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../css/root.css" data-fallbacks="/public/TBL/css/root.css,/TBL/css/root.css,../../css/root.css,../css/root.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+  <link rel="stylesheet" href="./css/game.css" data-fallbacks="/public/TBL/game/css/game.css,/TBL/game/css/game.css,../game/css/game.css,css/game.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+</head>
+<body class="game-page">
+  <a class="v-skip" href="#main">Skip to content</a>
+
+  <header class="v-header">
+    <div class="v-header-inner">
+      <a class="v-brand" href="./index.html" aria-label="Vantage by The Behavioral Lab">
+        <span class="v-brand-mark">VANTAGE<span>.</span></span>
+        <span class="v-brand-sub">by TBL</span>
+      </a>
+      <nav class="v-nav" aria-label="Vantage">
+        <a href="./index.html">Arena</a>
+        <a href="./arcade.html">Arcade</a>
+        <a href="./play.html">Play</a>
+        <a href="./leaderboard.html" aria-current="page">Leaderboard</a>
+        <a href="./profile.html">Profile</a>
+      </nav>
+      <div class="v-auth" data-auth-area>
+        <a class="v-auth-link" href="./login.html">Log in</a>
+        <a class="v-btn v-btn-signal v-btn-sm" href="./signup.html">Sign up</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="v-shell">
+    <header class="v-page-head">
+      <p class="v-kicker">Rankings · Season 01</p>
+      <h1>The standings.</h1>
+      <p>Ratings are local to this device and seeded with benchmark players. Win rated duels and daily sets to move your row. Accuracy is the tie-breaker worth watching.</p>
+      <div class="v-page-head-actions">
+        <span class="v-chip v-chip-live">Season live</span>
+        <span class="v-chip" id="seasonLabel">Season 01</span>
+        <a class="v-btn v-btn-sm" href="./play.html">Play a rated match</a>
+      </div>
+    </header>
+
+    <div class="v-auth-banner" data-guest-only>
+      <p><strong>You are browsing as a guest.</strong> Your row still updates on this device. Create an account to keep a consistent name and profile.</p>
+      <a class="v-btn v-btn-sm" href="./signup.html">Create account</a>
+    </div>
+
+    <div class="v-lb-layout">
+      <section aria-label="Leaderboard">
+        <div class="v-podium" id="podium"></div>
+
+        <div class="v-card reveal">
+          <div class="v-card-head">
+            <h2>Global standings</h2>
+            <span class="v-chip">Top 12</span>
+          </div>
+          <div class="v-table-scroll">
+            <table class="v-lb-table">
+              <thead>
+                <tr><th>Rank</th><th>Player</th><th>Rating</th><th>Accuracy</th><th>Streak</th></tr>
+              </thead>
+              <tbody id="lbBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <aside class="v-stack">
+        <div class="v-card reveal">
+          <div class="v-card-head"><h2>Your position</h2><span class="v-chip" id="myTier">—</span></div>
+          <div class="v-card-body">
+            <div class="v-standing-score" style="border-bottom:0;padding:6px 0 14px">
+              <strong id="myRank">#—</strong>
+              <span>Rank</span>
+            </div>
+            <div class="v-row"><span class="v-row-label">Rating</span><span class="v-row-value is-signal" id="myRating">1000</span></div>
+            <div class="v-row"><span class="v-row-label">Accuracy</span><span class="v-row-value" id="myAcc">0%</span></div>
+            <div class="v-row"><span class="v-row-label">Best streak</span><span class="v-row-value" id="myStreak">0</span></div>
+            <div class="v-row"><span class="v-row-label">Matches</span><span class="v-row-value" id="myGames">0</span></div>
+            <div style="display:flex;gap:8px;margin-top:18px;flex-wrap:wrap">
+              <a href="./play.html" class="v-btn v-btn-signal v-btn-sm">Play a match</a>
+              <button class="v-btn v-btn-sm" id="copyStanding" type="button">Copy standing</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="v-card reveal">
+          <div class="v-card-head"><h2>How ranking works</h2></div>
+          <div class="v-card-body">
+            <p class="v-note v-mt-0">Every rated result updates an ELO-style rating. Beating a higher-rated opponent moves you further; losing to one costs less. Practice protects your rating but still counts reps.</p>
+            <div class="v-row"><span class="v-row-label">Rated modes</span><span class="v-row-value" style="font-family:var(--v-mono);font-size:0.62rem">Duel · Daily</span></div>
+            <div class="v-row"><span class="v-row-label">Unrated</span><span class="v-row-value" style="font-family:var(--v-mono);font-size:0.62rem">Practice</span></div>
+          </div>
+        </div>
+
+        <div class="v-card reveal">
+          <div class="v-card-head"><h2>Behind the demo</h2></div>
+          <div class="v-card-body">
+            <p class="v-note v-mt-0">This build stores standings in your browser. Firebase Authentication is wired for accounts; shared global rankings need a database (Firestore or your own API) on top.</p>
+            <p class="v-note"><a href="./signup.html" style="color:var(--v-signal)">Create an account</a> to reserve your name for that next step.</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="v-footer">
+    <div class="v-footer-inner">
+      <p>© <span data-year></span> The Behavioral Lab</p>
+      <div class="v-footer-links">
+        <a href="./index.html">Arena</a>
+        <a href="./arcade.html">Arcade</a>
+        <a href="./play.html">Play</a>
+        <a href="./profile.html">Profile</a>
+      </div>
+    </div>
+  </footer>
+
+  <nav class="v-tabbar" aria-label="Vantage mobile navigation">
+    <a href="./index.html"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i>Arena</a>
+    <a href="./arcade.html"><i class="fa-solid fa-gamepad" aria-hidden="true"></i>Arcade</a>
+    <a href="./play.html"><i class="fa-solid fa-bolt" aria-hidden="true"></i>Play</a>
+    <a href="./leaderboard.html" aria-current="page"><i class="fa-solid fa-ranking-star" aria-hidden="true"></i>Ranks</a>
+    <a href="./profile.html"><i class="fa-solid fa-user" aria-hidden="true"></i>Profile</a>
+  </nav>
+
+  <script src="../js/main.js"></script>
+  <script src="./js/game-common.js"></script>
+  <script src="./js/firebase-config.js"></script>
+  <script src="./js/vantage-auth.js"></script>
+  <script src="./js/game-ui.js"></script>
+  <script>
+    (() => {
+      const esc = (value) => String(value == null ? '' : value).replace(/[&<>"']/g, (c) => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+      ));
+      const seeds = [
+        { name: 'Axiom', rating: 1480, acc: 96, streak: 12 },
+        { name: 'Maya K.', rating: 1415, acc: 93, streak: 8 },
+        { name: 'Rook', rating: 1360, acc: 91, streak: 6 },
+        { name: 'Sana', rating: 1290, acc: 89, streak: 5 },
+        { name: 'Vector', rating: 1240, acc: 87, streak: 4 },
+        { name: 'Noor', rating: 1185, acc: 85, streak: 3 },
+        { name: 'Cipher', rating: 1120, acc: 82, streak: 2 }
+      ];
+
+      function initials(name) {
+        return (name || 'P').trim().split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase() || 'P';
+      }
+
+      function tier(rating) {
+        if (rating >= 1450) return 'Signal';
+        if (rating >= 1300) return 'Contender';
+        if (rating >= 1150) return 'Challenger';
+        return 'Initiate';
+      }
+
+      let rows = [];
+      let me = null;
+
+      function render() {
+        const state = Vantage.load();
+        me = {
+          name: state.name || 'You',
+          rating: state.rating,
+          acc: Vantage.accuracy(state),
+          streak: state.bestStreak || state.streak || 0,
+          me: true
+        };
+        rows = [...seeds.filter((s) => s.name !== me.name), me].sort((a, b) => b.rating - a.rating).slice(0, 12);
+
+        const podium = document.getElementById('podium');
+        podium.innerHTML = rows.slice(0, 3).map((row, index) => `
+          <div class="v-podium-card ${index === 0 ? 'is-first' : ''}">
+            <span class="v-podium-rank">${String(index + 1).padStart(2, '0')}${index === 0 ? ' · Leader' : ''}</span>
+            <span class="v-podium-av">${esc(initials(row.name))}</span>
+            <span class="v-podium-name">${esc(row.name)}</span>
+            <span class="v-podium-score">${row.rating}</span>
+          </div>`).join('');
+
+        document.getElementById('lbBody').innerHTML = rows.map((row, index) => {
+          const rank = index + 1;
+          return `<tr class="${row.me ? 'is-me' : ''}">
+            <td class="v-lb-rank ${rank <= 3 ? 'is-top' : ''}">${String(rank).padStart(2, '0')}</td>
+            <td>
+              <div class="v-lb-player">
+                <span class="v-lb-av ${row.me ? 'is-me' : ''}">${esc(initials(row.name))}</span>
+                <span class="v-lb-name">${esc(row.name)}${row.me ? '<span class="v-lb-you">You</span>' : ''}</span>
+              </div>
+            </td>
+            <td class="v-lb-num ${row.me ? 'is-signal' : ''}">${row.rating}</td>
+            <td>${row.acc}%</td>
+            <td>${row.streak}</td>
+          </tr>`;
+        }).join('');
+
+        const myIndex = rows.findIndex((row) => row.me);
+        document.getElementById('myRank').textContent = myIndex >= 0 ? `#${String(myIndex + 1).padStart(2, '0')}` : '#—';
+        document.getElementById('myTier').textContent = tier(state.rating);
+        document.getElementById('myRating').textContent = state.rating;
+        document.getElementById('myAcc').textContent = Vantage.accuracy(state) + '%';
+        document.getElementById('myStreak').textContent = state.bestStreak || 0;
+        document.getElementById('myGames').textContent = state.gamesPlayed;
+      }
+
+      document.getElementById('copyStanding').addEventListener('click', async () => {
+        const text = `Vantage standing — ${me.name}: ${me.rating} rating, ${me.acc}% accuracy, ${me.streak} best streak.`;
+        try {
+          await navigator.clipboard.writeText(text);
+          VantageUI.toast('Standing copied');
+        } catch (error) {
+          VantageUI.toast('Copy failed — select the row manually');
+        }
+      });
+
+      render();
+      if (window.VantageAuth) window.VantageAuth.onChange(() => render());
+    })();
+  </script>
+</body>
+</html>

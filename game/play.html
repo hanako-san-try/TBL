@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Play — Vantage by The Behavioral Lab</title>
+  <meta name="description" content="Play Vantage: solo practice, the daily challenge, a rated CPU duel, or a live multiplayer room." />
+  <meta name="theme-color" content="#080807" />
+  <link rel="icon" href="../assets/logo/favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../css/root.css" data-fallbacks="/public/TBL/css/root.css,/TBL/css/root.css,../../css/root.css,../css/root.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+  <link rel="stylesheet" href="./css/game.css" data-fallbacks="/public/TBL/game/css/game.css,/TBL/game/css/game.css,../game/css/game.css,css/game.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+</head>
+<body class="game-page">
+  <a class="v-skip" href="#main">Skip to content</a>
+
+  <header class="v-header">
+    <div class="v-header-inner">
+      <a class="v-brand" href="./index.html" aria-label="Vantage by The Behavioral Lab">
+        <span class="v-brand-mark">VANTAGE<span>.</span></span>
+        <span class="v-brand-sub">by TBL</span>
+      </a>
+      <nav class="v-nav" aria-label="Vantage">
+        <a href="./index.html">Arena</a>
+        <a href="./arcade.html">Arcade</a>
+        <a href="./play.html" aria-current="page">Play</a>
+        <a href="./leaderboard.html">Leaderboard</a>
+        <a href="./profile.html">Profile</a>
+      </nav>
+      <div class="v-auth" data-auth-area>
+        <a class="v-auth-link" href="./login.html">Log in</a>
+        <a class="v-btn v-btn-signal v-btn-sm" href="./signup.html">Sign up</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="v-shell">
+    <header class="v-page-head">
+      <p class="v-kicker">Arena · Live</p>
+      <h1>Enter the arena.</h1>
+      <p>Ten questions. Sixty seconds. Pick a mode, keep your head clear, and answer with precision. Keys 1–4 work too.</p>
+      <div class="v-page-head-actions">
+        <span class="v-chip v-chip-live">Session ready</span>
+        <span class="v-chip" id="modeLabel">Practice</span>
+      </div>
+    </header>
+
+    <div class="v-auth-banner" data-guest-only>
+      <p><strong>Playing as guest.</strong> Your rating and streak stay on this device. Create an account to keep a name and carry your profile across sessions.</p>
+      <a class="v-btn v-btn-sm" href="./signup.html">Save progress</a>
+    </div>
+
+    <div class="v-play-layout">
+      <section class="v-arena" aria-label="Game arena">
+        <div class="v-arena-hud">
+          <div class="v-hud-player">
+            <div class="v-hud-name" id="p1-name">You</div>
+            <div class="v-hud-score is-signal" id="p1-score">0</div>
+            <div class="v-combo" id="combo"><i class="fa-solid fa-fire" aria-hidden="true"></i> <span id="comboText">0× combo</span></div>
+          </div>
+          <div class="v-hud-center">
+            <div class="v-timer-ring" id="timerRing" style="--p:360deg">
+              <span id="timer">60</span>
+            </div>
+            <div class="v-hud-round" id="roundLabel">Round 1 / 10</div>
+          </div>
+          <div class="v-hud-player is-right">
+            <div class="v-hud-name" id="p2-name">Par 6</div>
+            <div class="v-hud-score" id="p2-score">0</div>
+            <div class="v-hud-round" id="p2-sub">Target</div>
+          </div>
+        </div>
+
+        <div class="v-canvas-wrap" id="arena-canvas">
+          <div class="v-signal-bars" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+
+        <div class="v-question">
+          <div class="v-q-meta">
+            <span id="difficultyLabel">Warm-up</span>
+            <span id="feedback" class="v-status" aria-live="polite">Pick the correct answer.</span>
+          </div>
+          <div class="v-q-text" id="qText">Ready?</div>
+          <div class="v-answers" id="answers"></div>
+        </div>
+
+        <div class="v-arena-foot">
+          <span id="hintText">Tip: speed and accuracy both matter.</span>
+          <button class="v-btn v-btn-signal" id="startBtn" type="button">Start</button>
+        </div>
+
+        <div class="v-result" id="resultOverlay" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+          <div class="v-card v-result-card">
+            <p class="v-kicker" id="resultKicker">Match complete</p>
+            <h2 id="resultTitle">You win</h2>
+            <p id="resultDesc">Sharp work.</p>
+            <div class="v-result-stats">
+              <div class="v-result-stat"><strong id="r-score">0–0</strong><span>Score</span></div>
+              <div class="v-result-stat"><strong id="r-acc">0%</strong><span>Accuracy</span></div>
+              <div class="v-result-stat"><strong id="r-rating">1000</strong><span>Rating</span></div>
+            </div>
+            <div class="v-rating-delta" id="r-delta">—</div>
+            <div class="v-result-actions">
+              <button class="v-btn v-btn-signal v-btn-sm" id="playAgainBtn" type="button">Play again</button>
+              <a class="v-btn v-btn-sm" href="./leaderboard.html">Standings</a>
+              <a class="v-btn v-btn-ghost v-btn-sm" href="./profile.html">Profile</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="v-stack">
+        <div class="v-card">
+          <div class="v-card-head"><h2>Mode</h2><span class="v-chip" id="modeChip">Solo</span></div>
+          <div class="v-card-body">
+            <div class="v-mode-list" id="modeList">
+              <button class="v-mode-btn is-active" data-mode="practice" type="button" aria-pressed="true"><span>Practice</span><small>Solo</small></button>
+              <button class="v-mode-btn" data-mode="daily" type="button" aria-pressed="false"><span>Daily challenge</span><small>1/day</small></button>
+              <button class="v-mode-btn" data-mode="duel" type="button" aria-pressed="false"><span>1v1 Duel · CPU</span><small>Rated</small></button>
+              <button class="v-mode-btn" data-mode="multi" type="button" aria-pressed="false"><span>Multiplayer room</span><small>Live</small></button>
+            </div>
+            <p class="v-note" id="mpNote"><strong>Multiplayer</strong> creates a Playroom Kit room link. Share it to duel a friend in real time.</p>
+            <div class="v-room" id="mpPanel" hidden>
+              <div class="v-room-label">Room link</div>
+              <div class="v-room-code" id="roomCode">Create a room first</div>
+              <div class="v-room-actions">
+                <button class="v-btn v-btn-sm" id="copyLink" type="button">Copy link</button>
+                <span class="v-chip" id="mpStatus">Idle</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="v-card">
+          <div class="v-card-head"><h2>Session</h2><span class="v-chip" id="sideLevel">Lv 1</span></div>
+          <div class="v-card-body">
+            <div class="v-row"><span class="v-row-label">Rating</span><span class="v-row-value is-signal" id="side-rating">1000</span></div>
+            <div class="v-row"><span class="v-row-label">Accuracy</span><span class="v-row-value" id="side-acc">0%</span></div>
+            <div class="v-row"><span class="v-row-label">Win streak</span><span class="v-row-value" id="side-streak">0</span></div>
+            <div class="v-row"><span class="v-row-label">Daily</span><span class="v-row-value" id="side-daily">Open</span></div>
+            <div style="margin-top:16px">
+              <a href="./profile.html" class="v-btn v-btn-sm v-btn-block">Full profile</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="v-card">
+          <div class="v-card-head"><h2>How rated play works</h2></div>
+          <div class="v-card-body">
+            <p class="v-note v-mt-0">Duels and daily sets move your ELO. Practice counts reps and accuracy, never rating. The daily challenge unlocks once every 24 hours.</p>
+            <div class="v-row"><span class="v-row-label"><span class="v-kbd">1</span>–<span class="v-kbd">4</span></span><span class="v-row-value" style="font-family:var(--v-mono);font-size:0.62rem">Answer</span></div>
+            <div class="v-row"><span class="v-row-label"><span class="v-kbd">↵</span></span><span class="v-row-value" style="font-family:var(--v-mono);font-size:0.62rem">Start / retry</span></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="v-footer">
+    <div class="v-footer-inner">
+      <p>© <span data-year></span> The Behavioral Lab</p>
+      <div class="v-footer-links">
+        <a href="./index.html">Arena</a>
+        <a href="./arcade.html">Arcade</a>
+        <a href="./leaderboard.html">Standings</a>
+        <a href="./profile.html">Profile</a>
+      </div>
+    </div>
+  </footer>
+
+  <nav class="v-tabbar" aria-label="Vantage mobile navigation">
+    <a href="./index.html"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i>Arena</a>
+    <a href="./arcade.html"><i class="fa-solid fa-gamepad" aria-hidden="true"></i>Arcade</a>
+    <a href="./play.html" aria-current="page"><i class="fa-solid fa-bolt" aria-hidden="true"></i>Play</a>
+    <a href="./leaderboard.html"><i class="fa-solid fa-ranking-star" aria-hidden="true"></i>Ranks</a>
+    <a href="./profile.html"><i class="fa-solid fa-user" aria-hidden="true"></i>Profile</a>
+  </nav>
+
+  <script src="../js/main.js"></script>
+  <script src="./js/game-common.js"></script>
+  <script src="./js/firebase-config.js"></script>
+  <script src="./js/vantage-auth.js"></script>
+  <script src="./js/game-ui.js"></script>
+  <script type="module">
+    const params = new URLSearchParams(location.search);
+    const allowed = ['practice', 'daily', 'duel', 'multi'];
+    const initialMode = allowed.includes(params.get('mode')) ? params.get('mode') : 'practice';
+
+    const $ = (id) => document.getElementById(id);
+    const ui = {
+      p1Name: $('p1-name'), p2Name: $('p2-name'), p1Score: $('p1-score'), p2Score: $('p2-score'),
+      p2Sub: $('p2-sub'), timer: $('timer'), timerRing: $('timerRing'), round: $('roundLabel'),
+      combo: $('combo'), comboText: $('comboText'), difficulty: $('difficultyLabel'),
+      q: $('qText'), answers: $('answers'), feedback: $('feedback'), start: $('startBtn'),
+      modeLabel: $('modeLabel'), modeChip: $('modeChip'), hint: $('hintText'),
+      overlay: $('resultOverlay'), playAgain: $('playAgainBtn'),
+      mpPanel: $('mpPanel'), mpStatus: $('mpStatus'), roomCode: $('roomCode'), copyLink: $('copyLink'),
+      mpNote: $('mpNote')
+    };
+
+    const state = {
+      mode: initialMode,
+      running: false,
+      time: 60,
+      round: 0,
+      totalRounds: 10,
+      p1: 0,
+      p2: 0,
+      correct: 0,
+      answered: 0,
+      combo: 0,
+      bestCombo: 0,
+      current: null,
+      timerId: null,
+      lock: false,
+      startRating: 1000,
+      mp: null,
+      mpReady: false,
+      isHost: false,
+      opponent: null,
+      seed: null,
+      pollId: null,
+      countdownId: null,
+      started: false
+    };
+
+    const MODE_COPY = {
+      practice: { label: 'Practice', chip: 'Solo', p2: 'Par 6', p2sub: 'Target', hint: 'No rating risk. Build speed and accuracy.', start: 'Start practice' },
+      daily: { label: 'Daily Challenge', chip: '1/day', p2: 'Par 7', p2sub: 'Target', hint: 'One set per day. Keep the streak alive.', start: 'Start daily' },
+      duel: { label: '1v1 Duel · CPU', chip: 'Rated', p2: 'CPU', p2sub: 'Rated', hint: 'The CPU answers every round. Rating moves.', start: 'Start duel' },
+      multi: { label: 'Multiplayer Room', chip: 'Live', p2: 'Opponent', p2sub: 'Live', hint: 'Create a room, share the link, and duel live.', start: 'Create / join room' }
+    };
+
+    /* ---------- Kaplay visual layer ---------- */
+    let kaplay = null;
+    let k = null;
+    try {
+      const mod = await import('https://unpkg.com/kaplay@3001/dist/kaplay.mjs');
+      kaplay = mod.default || mod.kaplay || mod;
+    } catch (error) {
+      console.warn('Kaplay unavailable — signal strip uses CSS fallback.', error);
+    }
+
+    const fxScore = { p1: 0, p2: 0 };
+
+    function initKaplay() {
+      if (k || !kaplay) return k;
+      const wrap = $('arena-canvas');
+      if (!wrap) return null;
+      try {
+        const canvas = document.createElement('canvas');
+        k = kaplay({
+          root: wrap,
+          canvas,
+          width: Math.max(320, wrap.clientWidth || 800),
+          height: 180,
+          background: [8, 8, 7],
+          global: false,
+          debug: false
+        });
+        wrap.appendChild(k.canvas);
+        k.onUpdate(() => {
+          k.drawRect({ pos: k.vec2(0, 0), width: k.width(), height: k.height(), color: k.rgb(8, 8, 7) });
+          for (let x = 0; x < k.width(); x += 44) {
+            k.drawLine({ p1: k.vec2(x, 0), p2: k.vec2(x, k.height()), width: 1, color: k.rgb(30, 29, 27) });
+          }
+          for (let y = 0; y < k.height(); y += 44) {
+            k.drawLine({ p1: k.vec2(0, y), p2: k.vec2(k.width(), y), width: 1, color: k.rgb(30, 29, 27) });
+          }
+          k.drawLine({ p1: k.vec2(k.width() / 2, 0), p2: k.vec2(k.width() / 2, k.height()), width: 1, color: k.rgb(215, 244, 90), opacity: 0.14 });
+          const max = 10;
+          const p1h = Math.min(1, fxScore.p1 / max) * (k.height() - 46);
+          const p2h = Math.min(1, fxScore.p2 / max) * (k.height() - 46);
+          k.drawRect({ pos: k.vec2(28, k.height() - 24 - p1h), width: 22, height: Math.max(2, p1h), color: k.rgb(215, 244, 90), opacity: 0.9, radius: 2 });
+          k.drawRect({ pos: k.vec2(k.width() - 50, k.height() - 24 - p2h), width: 22, height: Math.max(2, p2h), color: k.rgb(170, 164, 154), opacity: 0.75, radius: 2 });
+          k.drawText({ text: 'YOU', pos: k.vec2(28, k.height() - 18), size: 9, color: k.rgb(119, 113, 104), font: 'monospace' });
+          k.drawText({ text: 'OPP', pos: k.vec2(k.width() - 50, k.height() - 18), size: 9, color: k.rgb(119, 113, 104), font: 'monospace' });
+        });
+        return k;
+      } catch (error) {
+        console.warn('Kaplay init failed — keeping CSS fallback.', error);
+        k = null;
+        return null;
+      }
+    }
+
+    function burst(good = true) {
+      if (!k) return;
+      try {
+        const col = good ? k.rgb(215, 244, 90) : k.rgb(255, 107, 91);
+        for (let i = 0; i < 16; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 40 + Math.random() * 120;
+          k.add([
+            k.pos(k.width() / 2, k.height() / 2),
+            k.circle(2 + Math.random() * 2.5),
+            k.color(col),
+            k.opacity(0.9),
+            k.move(angle * 180 / Math.PI, speed),
+            k.lifespan(0.6, { fade: 0.4 }),
+            k.z(10)
+          ]);
+        }
+      } catch (e) { /* visual only */ }
+    }
+
+    /* ---------- UI state ---------- */
+    function syncSide() {
+      const s = Vantage.load();
+      $('side-rating').textContent = s.rating;
+      $('side-acc').textContent = Vantage.accuracy(s) + '%';
+      $('side-streak').textContent = s.streak;
+      $('sideLevel').textContent = 'Lv ' + s.level;
+      $('side-daily').textContent = Vantage.dailyDone() ? 'Done' : 'Open';
+      ui.p1Name.textContent = s.name || 'You';
+      if (state.mode === 'multi' && state.opponent) {
+        // keep live opponent name
+      } else {
+        ui.p2Name.textContent = MODE_COPY[state.mode].p2;
+      }
+      ui.start.textContent = state.running ? 'Running…' : (
+        state.mode === 'multi' ? (state.mpReady ? 'Start match' : 'Create / join room') :
+        state.mode === 'daily' && Vantage.dailyDone() ? 'Completed today' :
+        MODE_COPY[state.mode].start
+      );
+    }
+
+    function setMode(mode) {
+      if (state.running || !MODE_COPY[mode]) return;
+      state.mode = mode;
+      document.querySelectorAll('.v-mode-btn').forEach((button) => {
+        const active = button.dataset.mode === mode;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      ui.modeLabel.textContent = MODE_COPY[mode].label;
+      ui.modeChip.textContent = MODE_COPY[mode].chip;
+      ui.p2Name.textContent = MODE_COPY[mode].p2;
+      ui.p2Sub.textContent = MODE_COPY[mode].p2sub;
+      ui.hint.textContent = MODE_COPY[mode].hint;
+      ui.mpPanel.hidden = mode !== 'multi';
+      ui.mpNote.hidden = mode === 'multi';
+      ui.mpStatus.textContent = state.mpReady ? 'Ready' : 'Idle';
+      ui.p2Score.textContent = mode === 'practice' ? '6' : mode === 'daily' ? '7' : '0';
+      state.p2 = mode === 'practice' ? 6 : mode === 'daily' ? 7 : 0;
+      fxScore.p2 = state.p2;
+      syncSide();
+    }
+
+    document.querySelectorAll('.v-mode-btn').forEach((button) => {
+      button.addEventListener('click', () => setMode(button.dataset.mode));
+    });
+
+    function updateTimer() {
+      ui.timer.textContent = Math.max(0, state.time);
+      ui.timerRing.style.setProperty('--p', `${Math.max(0, state.time) / 60 * 360}deg`);
+      ui.timerRing.classList.toggle('is-low', state.time <= 10);
+    }
+
+    function updateCombo() {
+      ui.combo.classList.toggle('is-on', state.combo >= 2);
+      ui.comboText.textContent = `${state.combo}× combo`;
+    }
+
+    function setFeedback(text, tone = '') {
+      ui.feedback.textContent = text;
+      ui.feedback.className = 'v-status' + (tone ? ' ' + tone : '');
+    }
+
+    function renderQuestion() {
+      const level = state.round < 4 ? 1 : state.round < 8 ? 2 : 3;
+      const seed = state.seed ? `${state.seed}:${state.round}` : undefined;
+      const question = Vantage.genQuestion(level, seed);
+      state.current = question;
+      state.lock = false;
+
+      ui.difficulty.textContent = level === 1 ? 'Warm-up' : level === 2 ? 'Working set' : 'Pressure';
+      ui.q.textContent = question.text;
+      ui.answers.innerHTML = '';
+      question.choices.forEach((choice, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'v-answer';
+        button.innerHTML = `<span class="v-key">${index + 1}</span><span>${choice}</span>`;
+        button.addEventListener('click', () => answer(choice, button));
+        ui.answers.appendChild(button);
+      });
+      ui.round.textContent = `Round ${Math.min(state.round + 1, state.totalRounds)} / ${state.totalRounds}`;
+      setFeedback('Pick the correct answer.');
+    }
+
+    function answer(value, button) {
+      if (!state.running || state.lock) return;
+      state.lock = true;
+      state.answered += 1;
+      const correct = value === state.current.ans;
+
+      [...ui.answers.children].forEach((node) => {
+        node.disabled = true;
+        const nodeValue = Number(node.querySelector('span:last-child')?.textContent);
+        if (nodeValue === state.current.ans) node.classList.add('is-correct');
+      });
+
+      if (correct) {
+        state.p1 += 1;
+        state.correct += 1;
+        state.combo += 1;
+        state.bestCombo = Math.max(state.bestCombo, state.combo);
+        setFeedback('Correct. +1', 'is-good');
+        burst(true);
+      } else {
+        state.combo = 0;
+        button.classList.add('is-wrong');
+        setFeedback(`Answer: ${state.current.ans}`, 'is-bad');
+        burst(false);
+      }
+
+      ui.p1Score.textContent = state.p1;
+      fxScore.p1 = state.p1;
+      updateCombo();
+
+      if (state.mp && state.mpReady) {
+        try {
+          state.mp.myPlayer().setState('vantageScore', state.p1);
+          state.mp.myPlayer().setState('vantageAnswered', state.answered);
+        } catch (e) { /* sync is best-effort */ }
+      }
+
+      if (state.mode === 'duel') {
+        const chance = state.round < 4 ? 0.55 : state.round < 8 ? 0.66 : 0.74;
+        if (Math.random() < chance) {
+          state.p2 += 1;
+          ui.p2Score.textContent = state.p2;
+          fxScore.p2 = state.p2;
+        }
+      }
+
+      setTimeout(nextRound, 680);
+    }
+
+    function nextRound() {
+      state.round += 1;
+      if (state.round >= state.totalRounds) {
+        endGame();
+        return;
+      }
+      renderQuestion();
+    }
+
+    function tick() {
+      state.time -= 1;
+      updateTimer();
+      if (state.time <= 0) endGame();
+    }
+
+    function startGame(seed = null) {
+      initKaplay();
+      state.running = true;
+      state.started = true;
+      state.time = 60;
+      state.round = 0;
+      state.p1 = 0;
+      state.p2 = state.mode === 'practice' ? 6 : state.mode === 'daily' ? 7 : 0;
+      state.correct = 0;
+      state.answered = 0;
+      state.combo = 0;
+      state.bestCombo = 0;
+      state.lock = false;
+      state.seed = seed;
+      state.startRating = Vantage.load().rating;
+
+      fxScore.p1 = 0;
+      fxScore.p2 = state.p2;
+      ui.p1Score.textContent = '0';
+      ui.p2Score.textContent = String(state.p2);
+      ui.timer.textContent = '60';
+      ui.timerRing.classList.remove('is-low');
+      ui.overlay.classList.remove('is-open');
+      ui.start.disabled = true;
+      ui.start.textContent = 'Running…';
+      ui.combo.classList.remove('is-on');
+      setFeedback('Go.');
+      updateTimer();
+      renderQuestion();
+
+      clearInterval(state.timerId);
+      state.timerId = setInterval(tick, 1000);
+    }
+
+    function endGame() {
+      if (!state.running) return;
+      state.running = false;
+      clearInterval(state.timerId);
+      clearInterval(state.countdownId);
+      ui.start.disabled = false;
+      [...ui.answers.children].forEach((node) => { node.disabled = true; });
+
+      const win = state.p1 > state.p2;
+      const loss = state.p1 < state.p2;
+      const draw = state.p1 === state.p2;
+      const rated = state.mode !== 'practice';
+
+      const before = state.startRating;
+      const next = Vantage.addResult({
+        win,
+        loss,
+        draw,
+        correct: state.correct,
+        total: state.answered,
+        oppRating: 1000 + Math.round((state.p2 / state.totalRounds) * 240),
+        mode: state.mode,
+        rated
+      });
+      if (state.mode === 'daily') Vantage.markDaily();
+      syncSide();
+
+      const delta = next.rating - before;
+      $('resultKicker').textContent = state.mode === 'daily' ? 'Daily complete' : state.mode === 'practice' ? 'Practice complete' : 'Match complete';
+      $('resultTitle').textContent = win ? 'You win' : loss ? 'You lose' : 'Draw';
+      $('resultTitle').style.color = win ? 'var(--v-signal)' : loss ? '#ff8e82' : 'var(--v-text)';
+      $('resultDesc').textContent = win
+        ? 'Clean execution. The rating moved in your favour.'
+        : loss
+          ? 'Good reps. Check accuracy, then take another run.'
+          : 'Even match. One more clean round decides it.';
+      $('r-score').textContent = `${state.p1}–${state.p2}`;
+      $('r-acc').textContent = state.answered ? Math.round((state.correct / state.answered) * 100) + '%' : '0%';
+      $('r-rating').textContent = next.rating;
+      const deltaNode = $('r-delta');
+      deltaNode.textContent = rated ? (delta > 0 ? `+${delta} rating` : delta < 0 ? `${delta} rating` : 'Rating unchanged') : 'Practice — rating protected';
+      deltaNode.classList.toggle('is-down', rated && delta < 0);
+      ui.overlay.classList.add('is-open');
+      ui.playAgain.focus();
+    }
+
+    /* ---------- multiplayer ---------- */
+    async function startMultiplayer() {
+      ui.start.disabled = true;
+      ui.start.textContent = 'Connecting…';
+      ui.mpStatus.textContent = 'Connecting';
+      setFeedback('Opening a room…');
+
+      try {
+        const mod = await import('https://unpkg.com/playroomkit/multiplayer.full.esm.js');
+        const { insertCoin, onPlayerJoin, myPlayer, isHost, getPlayers } = mod;
+        await insertCoin({ skipLobby: true, roomCode: params.get('roomCode') || undefined });
+
+        state.mp = { onPlayerJoin, myPlayer, isHost, getPlayers };
+        state.mpReady = true;
+        state.isHost = typeof isHost === 'function' ? isHost() : false;
+
+        ui.mpStatus.textContent = state.isHost ? 'Host' : 'Joined';
+        ui.roomCode.textContent = location.href;
+        ui.p2Name.textContent = 'Opponent';
+        ui.p2Sub.textContent = 'Live';
+        setFeedback('Room ready. Share the link, then start.');
+        ui.start.disabled = false;
+        ui.start.textContent = 'Start match';
+
+        const attach = (player) => {
+          if (!player || player.id === myPlayer().id) return;
+          state.opponent = player;
+          try {
+            const profile = player.getProfile ? player.getProfile() : null;
+            if (profile?.name) ui.p2Name.textContent = profile.name;
+          } catch (e) { /* optional */ }
+          try {
+            player.onQuit?.(() => {
+              ui.p2Name.textContent = 'Left';
+              ui.mpStatus.textContent = 'Opponent left';
+            });
+          } catch (e) { /* optional */ }
+        };
+
+        if (typeof onPlayerJoin === 'function') onPlayerJoin(attach);
+        if (typeof getPlayers === 'function') {
+          try { (getPlayers() || []).forEach(attach); } catch (e) { /* optional */ }
+        }
+
+        clearInterval(state.pollId);
+        state.pollId = setInterval(() => {
+          if (!state.mp) return;
+          if (state.opponent) {
+            try {
+              const score = state.opponent.getState('vantageScore');
+              if (typeof score === 'number') {
+                state.p2 = score;
+                ui.p2Score.textContent = String(score);
+                fxScore.p2 = score;
+              }
+            } catch (e) { /* optional */ }
+          }
+          if (!state.isHost && !state.running && !state.seed) {
+            try {
+              const players = typeof getPlayers === 'function' ? getPlayers() : [];
+              players.forEach((player) => {
+                if (player.id === myPlayer().id) return;
+                const seed = player.getState('vantageSeed');
+                const startAt = player.getState('vantageStart');
+                if (seed && startAt) {
+                  state.seed = seed;
+                  beginMultiplayerMatch(seed, startAt);
+                }
+              });
+            } catch (e) { /* optional */ }
+          }
+        }, 350);
+      } catch (error) {
+        console.error('[Vantage] Multiplayer unavailable', error);
+        state.mpReady = false;
+        ui.mpStatus.textContent = 'Offline';
+        setFeedback('Multiplayer unavailable. Falling back to a CPU duel.', 'is-bad');
+        setMode('duel');
+        ui.start.disabled = false;
+        ui.start.textContent = 'Start duel';
+      }
+    }
+
+    function beginMultiplayerMatch(seed, startAt) {
+      if (state.started) return;
+      state.started = true;
+      const wait = Math.max(0, Math.min(4000, Number(startAt) - Date.now()));
+      let left = Math.ceil(wait / 1000);
+      setFeedback(left > 0 ? `Match starts in ${left}…` : 'Go.');
+      clearInterval(state.countdownId);
+      if (wait <= 0) { startGame(seed); return; }
+      state.countdownId = setInterval(() => {
+        left -= 1;
+        if (left > 0) {
+          setFeedback(`Match starts in ${left}…`);
+        } else {
+          clearInterval(state.countdownId);
+          startGame(seed);
+        }
+      }, 1000);
+    }
+
+    function startHostMatch() {
+      const seed = Math.random().toString(36).slice(2, 10);
+      const startAt = Date.now() + 2600;
+      state.seed = seed;
+      try {
+        state.mp?.myPlayer?.().setState('vantageSeed', seed);
+        state.mp?.myPlayer?.().setState('vantageStart', startAt);
+      } catch (e) { /* optional */ }
+      beginMultiplayerMatch(seed, startAt);
+    }
+
+    function handleStart() {
+      if (state.running) return;
+      if (state.mode === 'daily' && Vantage.dailyDone()) {
+        setFeedback('Daily challenge already completed today. Try Practice or a Duel.');
+        return;
+      }
+      if (state.mode === 'multi') {
+        if (!state.mpReady) { startMultiplayer(); return; }
+        if (state.isHost) { startHostMatch(); return; }
+        setFeedback('Waiting for the host to start…');
+        return;
+      }
+      startGame();
+    }
+
+    ui.start.addEventListener('click', handleStart);
+    ui.playAgain.addEventListener('click', () => {
+      ui.overlay.classList.remove('is-open');
+      state.started = false;
+      state.seed = null;
+      if (state.mode === 'multi') { handleStart(); return; }
+      startGame();
+    });
+
+    ui.copyLink.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(location.href);
+        VantageUI.toast('Room link copied');
+      } catch (error) {
+        VantageUI.toast('Copy failed — share the URL manually');
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' && !state.running && ui.overlay.classList.contains('is-open')) {
+        event.preventDefault();
+        ui.playAgain.click();
+        return;
+      }
+      if (!state.running || state.lock) return;
+      const index = Number(event.key) - 1;
+      if (index >= 0 && index < 4) {
+        const button = ui.answers.children[index];
+        if (button && !button.disabled) {
+          event.preventDefault();
+          button.click();
+        }
+      }
+    });
+
+    setMode(initialMode);
+    syncSide();
+    updateTimer();
+    initKaplay();
+  </script>
+</body>
+</html>

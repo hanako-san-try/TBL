@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arcade — Vantage by TBL</title>
+  <meta name="description" content="The Vantage arcade: math puzzles, memory and logic drills, reflex tests, and physics games. Twenty-two ways to train, all unrated and all tracked." />
+  <meta name="theme-color" content="#080807" />
+  <meta property="og:title" content="Vantage Arcade — Train every edge" />
+  <meta property="og:description" content="Math, memory, reflex and physics games from The Behavioral Lab. Personal bests, XP and a daily three-game workout." />
+  <link rel="icon" href="../assets/logo/favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../css/root.css" data-fallbacks="/public/TBL/css/root.css,/TBL/css/root.css,../../css/root.css,../css/root.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+  <link rel="stylesheet" href="./css/game.css" data-fallbacks="/public/TBL/game/css/game.css,/TBL/game/css/game.css,../game/css/game.css,css/game.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+  <link rel="stylesheet" href="./css/arcade.css" data-fallbacks="/public/TBL/game/css/arcade.css,/TBL/game/css/arcade.css,../game/css/arcade.css,css/arcade.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+</head>
+<body class="game-page">
+  <a class="v-skip" href="#main">Skip to content</a>
+
+  <header class="v-header">
+    <div class="v-header-inner">
+      <a class="v-brand" href="./index.html" aria-label="Vantage by The Behavioral Lab">
+        <span class="v-brand-mark">VANTAGE<span>.</span></span>
+        <span class="v-brand-sub">by TBL</span>
+      </a>
+      <nav class="v-nav" aria-label="Vantage">
+        <a href="./index.html">Arena</a>
+        <a href="./arcade.html" aria-current="page">Arcade</a>
+        <a href="./play.html">Play</a>
+        <a href="./leaderboard.html">Leaderboard</a>
+        <a href="./profile.html">Profile</a>
+      </nav>
+      <div class="v-auth" data-auth-area>
+        <a class="v-auth-link" href="./login.html">Log in</a>
+        <a class="v-btn v-btn-signal v-btn-sm" href="./signup.html">Sign up</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="v-shell">
+    <section class="arcade-hero" aria-labelledby="arcade-title">
+      <div>
+        <p class="v-kicker v-rise">The arcade · Season 01</p>
+        <h1 class="v-rise v-rise-1">Train every <span>edge.</span></h1>
+        <p class="v-lead v-rise v-rise-2">Twenty-two drills across math, memory, reflex and physics. Every run is unrated, every result is logged, and every personal best is yours to break.</p>
+        <div class="arcade-hero-actions v-rise v-rise-3">
+          <button class="v-btn v-btn-signal" type="button" id="hero-workout"><i class="fa-solid fa-play" aria-hidden="true"></i> Start daily workout</button>
+          <a class="v-btn" href="./play.html?mode=duel">Rated duel</a>
+          <a class="v-btn v-btn-ghost" href="#arcade-catalog">Browse all games</a>
+        </div>
+      </div>
+      <aside class="arcade-hero-stat v-rise v-rise-4" aria-label="Your arcade log">
+        <div class="v-card-head"><span>Training log</span><span class="v-chip">On this device</span></div>
+        <div class="v-row"><span class="v-row-label">Arcade runs</span><span class="v-row-value" data-arcade-stat="plays">0</span></div>
+        <div class="v-row"><span class="v-row-label">Games tried</span><span class="v-row-value" data-arcade-stat="tried">0</span></div>
+        <div class="v-row"><span class="v-row-label">Level</span><span class="v-row-value is-signal" data-arcade-stat="level">1</span></div>
+      </aside>
+    </section>
+
+    <section id="arcade-catalog" aria-labelledby="catalog-title">
+      <div class="arcade-workout" id="arcade-workout" aria-live="polite"></div>
+
+      <div class="v-section-head">
+        <div>
+          <p class="v-kicker">The catalog</p>
+          <h2 id="catalog-title">Pick a discipline.</h2>
+        </div>
+        <p>Filter by skill, search by name, or let the daily workout decide. Nothing here touches your duel rating.</p>
+      </div>
+
+      <div class="arcade-toolbar">
+        <div class="arcade-filters" id="arcade-filters" role="group" aria-label="Filter games"></div>
+        <label class="arcade-search">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <span class="v-sr-only">Search games</span>
+          <input id="arcade-search" type="search" placeholder="Search games or skills" autocomplete="off" />
+        </label>
+      </div>
+
+      <div class="arcade-layout">
+        <div class="arcade-grid" id="arcade-grid"></div>
+        <aside class="v-card arcade-side" id="arcade-side" aria-label="Arcade session log"></aside>
+      </div>
+    </section>
+
+    <section class="v-cta reveal" aria-labelledby="arcade-cta">
+      <p class="v-kicker">After the drills</p>
+      <h2 id="arcade-cta">Train alone. <span>Prove it live.</span></h2>
+      <p>Arcade runs build the reps. The duel is where the rating moves. Take the same composure into a sixty-second match.</p>
+      <div class="v-cta-actions">
+        <a href="./play.html?mode=duel" class="v-btn v-btn-signal">Enter a rated duel</a>
+        <a href="./leaderboard.html" class="v-btn">See the standings</a>
+        <a href="./signup.html" class="v-btn v-btn-ghost" data-guest-only>Save your progress</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="v-footer">
+    <div class="v-footer-inner">
+      <p>© <span data-year></span> The Behavioral Lab</p>
+      <div class="v-footer-links">
+        <a href="../index.html">TBL</a>
+        <a href="../page/books.html">Library</a>
+        <a href="./arcade.html">Arcade</a>
+        <a href="./play.html">Play</a>
+        <a href="./leaderboard.html">Ranks</a>
+        <a href="./login.html">Log in</a>
+      </div>
+    </div>
+  </footer>
+
+  <nav class="v-tabbar" aria-label="Vantage mobile navigation">
+    <a href="./index.html"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i>Arena</a>
+    <a href="./arcade.html" aria-current="page"><i class="fa-solid fa-gamepad" aria-hidden="true"></i>Arcade</a>
+    <a href="./play.html"><i class="fa-solid fa-bolt" aria-hidden="true"></i>Play</a>
+    <a href="./leaderboard.html"><i class="fa-solid fa-ranking-star" aria-hidden="true"></i>Ranks</a>
+    <a href="./profile.html"><i class="fa-solid fa-user" aria-hidden="true"></i>Profile</a>
+  </nav>
+
+  <div class="arcade-stage" id="arcade-stage" hidden role="dialog" aria-modal="true" aria-labelledby="arcade-stage-title">
+    <div class="arcade-stage-inner">
+      <div class="arcade-stage-head">
+        <button class="arcade-back" type="button" id="arcade-close" aria-label="Close game and return to arcade">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        </button>
+        <div class="arcade-stage-title">
+          <p id="arcade-stage-kicker">Game</p>
+          <h2 id="arcade-stage-title">Game</h2>
+        </div>
+        <div class="arcade-stage-stats">
+          <span class="arcade-stage-score" id="arcade-stage-score">0</span>
+          <span class="arcade-stage-status" id="arcade-stage-status">Loading</span>
+        </div>
+      </div>
+      <div class="arcade-stage-progress" aria-hidden="true"><span id="arcade-progress"></span></div>
+      <div class="arcade-mount" id="arcade-mount"></div>
+      <div class="arcade-stage-foot">
+        <span class="arcade-stage-note" id="arcade-stage-best">Best 0</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="v-btn v-btn-sm" type="button" id="arcade-restart">Restart</button>
+          <button class="v-btn v-btn-sm" type="button" data-arcade-exit>Exit</button>
+        </div>
+      </div>
+
+      <div class="arcade-result" id="arcade-result" hidden>
+        <div class="arcade-result-card" role="status" aria-live="polite">
+          <p class="g-kicker" id="result-kicker">Run complete</p>
+          <h2 id="result-headline">Run logged.</h2>
+          <p id="result-detail">Personal bests update automatically.</p>
+          <div class="arcade-result-score" id="result-score">0</div>
+          <span class="v-chip arcade-result-new" id="result-new" hidden>New personal best</span>
+          <div class="arcade-result-stats">
+            <div class="arcade-result-stat"><strong id="result-best">0</strong><span>Personal best</span></div>
+            <div class="arcade-result-stat"><strong id="result-correct">—</strong><span>Correct</span></div>
+            <div class="arcade-result-stat"><strong id="result-xp">+0 XP</strong><span>Earned</span></div>
+          </div>
+          <div class="arcade-result-actions">
+            <button class="v-btn v-btn-signal" type="button" id="result-again">Play again</button>
+            <button class="v-btn" type="button" id="result-close">Back to arcade</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script src="./js/game-common.js"></script>
+  <script src="./js/firebase-config.js"></script>
+  <script src="./js/vantage-auth.js"></script>
+  <script src="./js/game-ui.js"></script>
+  <script type="module" src="./js/arcade.js"></script>
+</body>
+</html>

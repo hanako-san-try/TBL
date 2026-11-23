@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile — Vantage by The Behavioral Lab</title>
+  <meta name="description" content="Your Vantage profile — rating, accuracy, streaks, level, and match history." />
+  <meta name="theme-color" content="#080807" />
+  <link rel="icon" href="../assets/logo/favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../css/root.css" data-fallbacks="/public/TBL/css/root.css,/TBL/css/root.css,../../css/root.css,../css/root.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+  <link rel="stylesheet" href="./css/game.css" data-fallbacks="/public/TBL/game/css/game.css,/TBL/game/css/game.css,../game/css/game.css,css/game.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+</head>
+<body class="game-page" data-protected>
+  <a class="v-skip" href="#main">Skip to content</a>
+
+  <header class="v-header">
+    <div class="v-header-inner">
+      <a class="v-brand" href="./index.html" aria-label="Vantage by The Behavioral Lab">
+        <span class="v-brand-mark">VANTAGE<span>.</span></span>
+        <span class="v-brand-sub">by TBL</span>
+      </a>
+      <nav class="v-nav" aria-label="Vantage">
+        <a href="./index.html">Arena</a>
+        <a href="./arcade.html">Arcade</a>
+        <a href="./play.html">Play</a>
+        <a href="./leaderboard.html">Leaderboard</a>
+        <a href="./profile.html" aria-current="page">Profile</a>
+      </nav>
+      <div class="v-auth" data-auth-area>
+        <a class="v-auth-link" href="./login.html">Log in</a>
+        <a class="v-btn v-btn-signal v-btn-sm" href="./signup.html">Sign up</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="v-shell">
+    <div id="profileGate" class="v-gate" hidden>
+      <div class="v-gate-inner">
+        <p class="v-kicker">Members only</p>
+        <h1>Your profile is behind the line.</h1>
+        <p>Sign in to open your Vantage record, keep your display name, and carry your rating between sessions.</p>
+        <div class="v-gate-actions">
+          <a class="v-btn v-btn-signal" href="./login.html?next=./profile.html">Log in</a>
+          <a class="v-btn" href="./signup.html?next=./profile.html">Create account</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="profileContent">
+      <section class="v-profile-hero">
+        <div class="v-profile-id">
+          <div class="v-profile-av" id="avatar" aria-hidden="true">P</div>
+          <div style="min-width:0">
+            <p class="v-kicker">Player profile</p>
+            <h1 class="v-profile-name" id="nameDisplay">Player</h1>
+            <p class="v-profile-meta" id="metaDisplay">Level 1 · 0 matches · Local device</p>
+          </div>
+        </div>
+        <div class="v-profile-actions">
+          <a href="./play.html" class="v-btn v-btn-signal v-btn-sm"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Play a round</a>
+          <a href="./leaderboard.html" class="v-btn v-btn-sm">Standings</a>
+        </div>
+      </section>
+
+      <div class="v-auth-banner" data-guest-only>
+        <p><strong>Guest profile.</strong> This record lives in this browser only. Create an account to attach a name and keep your identity when you return.</p>
+        <a class="v-btn v-btn-sm" href="./signup.html?next=./profile.html">Create account</a>
+      </div>
+
+      <div class="v-auth-banner" id="demoBanner" hidden>
+        <p><strong>Local demo auth.</strong> Accounts work on this device. Add your Firebase web config in <code style="font-family:var(--v-mono);color:var(--v-signal)">js/firebase-config.js</code> to switch to real Firebase Authentication.</p>
+      </div>
+
+      <div class="v-profile-layout">
+        <aside class="v-stack">
+          <section class="v-card reveal" aria-label="Performance stats">
+            <div class="v-card-head"><h2>Performance</h2><span class="v-chip" id="tierChip">Initiate</span></div>
+            <div class="v-card-body">
+              <div class="v-stat-grid" style="grid-template-columns:1fr 1fr">
+                <div class="v-stat"><div class="v-stat-val is-signal" id="stRating">1000</div><div class="v-stat-label">Rating</div></div>
+                <div class="v-stat"><div class="v-stat-val" id="stAcc">0%</div><div class="v-stat-label">Accuracy</div></div>
+                <div class="v-stat"><div class="v-stat-val" id="stStreak">0</div><div class="v-stat-label">Streak</div></div>
+                <div class="v-stat"><div class="v-stat-val" id="stLevel">1</div><div class="v-stat-label">Level</div></div>
+              </div>
+
+              <div style="margin-top:18px">
+                <div class="v-row"><span class="v-row-label">Matches</span><span class="v-row-value" id="stGames">0</span></div>
+                <div class="v-row"><span class="v-row-label">Arcade runs</span><span class="v-row-value" id="stArcade">0</span></div>
+                <div class="v-row"><span class="v-row-label">Wins / losses / draws</span><span class="v-row-value" id="stWLD">0 / 0 / 0</span></div>
+                <div class="v-row"><span class="v-row-label">Best streak</span><span class="v-row-value" id="stBest">0</span></div>
+                <div class="v-row"><span class="v-row-label">Win rate</span><span class="v-row-value" id="stWinRate">0%</span></div>
+                <div class="v-row"><span class="v-row-label">Daily challenge</span><span class="v-row-value" id="stDaily">Open</span></div>
+              </div>
+
+              <div class="v-field">
+                <label for="nameInput">Display name <span>Shown on your profile</span></label>
+                <input class="v-input" id="nameInput" type="text" maxlength="24" placeholder="Your name" autocomplete="nickname" />
+              </div>
+              <div class="v-field-row">
+                <button class="v-btn v-btn-sm v-btn-signal" id="saveName" type="button">Save name</button>
+                <button class="v-btn v-btn-sm" id="resetBtn" type="button">Reset stats</button>
+              </div>
+              <p class="v-note" id="saveNote">Stats stay on this device. Resetting clears matches, arcade bests, rating, accuracy, and level — not your name.</p>
+            </div>
+          </section>
+
+          <section class="v-card reveal" data-auth-only aria-label="Account">
+            <div class="v-card-head"><h2>Account</h2><span class="v-chip" id="accountMode">Firebase</span></div>
+            <div class="v-card-body">
+              <div class="v-row"><span class="v-row-label">Name</span><span class="v-row-value" data-auth-name style="font-size:0.9rem">—</span></div>
+              <div class="v-row"><span class="v-row-label">Email</span><span class="v-row-value" data-auth-email style="font-size:0.76rem;font-family:var(--v-mono);overflow-wrap:anywhere;text-align:right">—</span></div>
+              <div class="v-row"><span class="v-row-label">Provider</span><span class="v-row-value" id="accountProvider" style="font-size:0.76rem;font-family:var(--v-mono)">—</span></div>
+              <div class="v-field-row">
+                <button class="v-btn v-btn-sm" type="button" data-auth-out>Sign out</button>
+              </div>
+            </div>
+          </section>
+        </aside>
+
+        <section class="v-card reveal" aria-label="Session history">
+          <div class="v-card-head"><h2>Recent sessions</h2><span class="v-chip">Last 30</span></div>
+          <div class="v-card-body">
+            <div class="v-table-scroll">
+              <table class="v-history" id="historyTable">
+                <thead><tr><th>Result</th><th>Mode</th><th>Score</th><th>Accuracy</th><th>Rating</th></tr></thead>
+                <tbody id="historyBody"></tbody>
+              </table>
+            </div>
+            <div class="v-empty" id="historyEmpty" hidden>
+              No sessions yet. <a href="./play.html" style="color:var(--v-signal)">Play a round</a> or <a href="./arcade.html" style="color:var(--v-signal)">open the arcade</a> to start building your record.
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="v-footer">
+    <div class="v-footer-inner">
+      <p>© <span data-year></span> The Behavioral Lab</p>
+      <div class="v-footer-links">
+        <a href="./index.html">Arena</a>
+        <a href="./arcade.html">Arcade</a>
+        <a href="./play.html">Play</a>
+        <a href="./leaderboard.html">Standings</a>
+      </div>
+    </div>
+  </footer>
+
+  <nav class="v-tabbar" aria-label="Vantage mobile navigation">
+    <a href="./index.html"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i>Arena</a>
+    <a href="./arcade.html"><i class="fa-solid fa-gamepad" aria-hidden="true"></i>Arcade</a>
+    <a href="./play.html"><i class="fa-solid fa-bolt" aria-hidden="true"></i>Play</a>
+    <a href="./leaderboard.html"><i class="fa-solid fa-ranking-star" aria-hidden="true"></i>Ranks</a>
+    <a href="./profile.html" aria-current="page"><i class="fa-solid fa-user" aria-hidden="true"></i>Profile</a>
+  </nav>
+
+  <script src="../js/main.js"></script>
+  <script src="./js/game-common.js"></script>
+  <script src="./js/firebase-config.js"></script>
+  <script src="./js/vantage-auth.js"></script>
+  <script src="./js/game-ui.js"></script>
+  <script>
+    (() => {
+      const esc = (value) => String(value == null ? '' : value).replace(/[&<>"']/g, (c) => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+      ));
+      const tier = (rating) => rating >= 1450 ? 'Signal' : rating >= 1300 ? 'Contender' : rating >= 1150 ? 'Challenger' : 'Initiate';
+
+      function render() {
+        const state = Vantage.load();
+        const acc = Vantage.accuracy(state);
+        const initials = Vantage.initials(state.name);
+        const user = window.VantageAuth?.currentUser || null;
+
+        document.getElementById('avatar').textContent = initials;
+        document.getElementById('nameDisplay').textContent = state.name || 'Player';
+        document.getElementById('metaDisplay').textContent = `Level ${state.level} · ${state.gamesPlayed} match${state.gamesPlayed === 1 ? '' : 'es'} · ${user ? (user.isDemo ? 'Local demo account' : 'Firebase account') : 'Local device'}`;
+        document.getElementById('stRating').textContent = state.rating;
+        document.getElementById('stAcc').textContent = acc + '%';
+        document.getElementById('stStreak').textContent = state.streak;
+        document.getElementById('stLevel').textContent = state.level;
+        document.getElementById('stGames').textContent = state.gamesPlayed;
+        document.getElementById('stArcade').textContent = Vantage.arcadeTotalPlays();
+        document.getElementById('stWLD').textContent = `${state.wins} / ${state.losses} / ${state.draws}`;
+        document.getElementById('stBest').textContent = state.bestStreak;
+        document.getElementById('stWinRate').textContent = Vantage.winRate(state) + '%';
+        document.getElementById('stDaily').textContent = Vantage.dailyDone() ? 'Completed' : 'Open';
+        document.getElementById('tierChip').textContent = tier(state.rating);
+        document.getElementById('nameInput').value = state.name || '';
+        document.getElementById('accountProvider').textContent = user ? (user.provider || '—') : '—';
+        document.getElementById('accountMode').textContent = window.VantageAuth?.mode === 'firebase' ? 'Firebase' : 'Local demo';
+        document.getElementById('demoBanner').hidden = !(window.VantageAuth?.mode === 'demo' && user);
+
+        const body = document.getElementById('historyBody');
+        const empty = document.getElementById('historyEmpty');
+        const table = document.getElementById('historyTable');
+        if (!state.history.length) {
+          body.innerHTML = '';
+          table.hidden = true;
+          empty.hidden = false;
+          return;
+        }
+        table.hidden = false;
+        empty.hidden = true;
+        body.innerHTML = state.history.map((item) => {
+          const isArcade = item.mode === 'arcade';
+          const rated = item.rated !== false && item.mode !== 'practice';
+          const cls = isArcade ? 'is-draw' : !rated ? 'is-draw' : item.win ? 'is-win' : item.loss ? 'is-loss' : 'is-draw';
+          const label = isArcade ? 'Run' : !rated ? 'Practice' : item.win ? 'Win' : item.loss ? 'Loss' : 'Draw';
+          const accuracy = item.total ? Math.round((item.correct / item.total) * 100) : 0;
+          const fallbackTitle = String(item.game || 'Arcade').replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+          const mode = isArcade
+            ? `Arcade · ${item.gameTitle || fallbackTitle}`
+            : item.mode === 'multi' ? 'Multiplayer' : item.mode === 'duel' ? 'Duel' : item.mode === 'daily' ? 'Daily' : 'Practice';
+          const score = isArcade ? `${Number(item.score || 0).toLocaleString('en-US')} pts` : `${item.correct}/${item.total}`;
+          return `<tr>
+            <td><span class="v-res ${cls}">${label}</span></td>
+            <td>${esc(mode)}</td>
+            <td>${score}</td>
+            <td>${accuracy}%</td>
+            <td style="color:var(--v-text);font-family:var(--font-display);font-size:1rem">${item.rating}</td>
+          </tr>`;
+        }).join('');
+      }
+
+      async function init() {
+        if (window.VantageUI) {
+          const ok = await window.VantageUI.guard({ next: './profile.html' });
+          if (!ok) return;
+        }
+        render();
+        if (window.VantageAuth) {
+          window.VantageAuth.onChange(() => render());
+        }
+      }
+
+      document.getElementById('saveName').addEventListener('click', async () => {
+        const input = document.getElementById('nameInput');
+        const value = input.value.trim();
+        const note = document.getElementById('saveNote');
+        if (!value) {
+          note.textContent = 'Add a display name first.';
+          note.style.color = '#ff9d92';
+          return;
+        }
+        try {
+          Vantage.setName(value);
+          if (window.VantageAuth?.currentUser) {
+            await window.VantageAuth.updateDisplayName(value);
+          }
+          render();
+          note.textContent = 'Name saved.';
+          note.style.color = 'var(--v-win)';
+          window.VantageUI?.toast('Name saved');
+        } catch (error) {
+          note.textContent = window.VantageAuth ? window.VantageAuth.friendlyError(error) : 'Could not save that name.';
+          note.style.color = '#ff9d92';
+        }
+      });
+
+      document.getElementById('resetBtn').addEventListener('click', () => {
+        if (!confirm('Reset rating, matches, accuracy, streak, arcade bests, and level on this device? Your name and account stay.')) return;
+        Vantage.reset();
+        render();
+        window.VantageUI?.toast('Local stats reset');
+      });
+
+      init();
+    })();
+  </script>
+</body>
+</html>

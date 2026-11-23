@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Developer — The Behavioral Lab</title>
+    <meta name="description" content="The developer behind The Behavioral Lab, an open-source psychology and strategy archive." />
+    <meta name="theme-color" content="#0c0c0b" />
+    <link rel="icon" href="../assets/logo/favicon.ico" sizes="any" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/root.css" />
+    <style>
+      .dev-hero { padding: calc(var(--header-h) + 64px) 0 56px; border-bottom: 1px solid var(--line); }
+      .dev-grid { display: grid; gap: 32px; align-items: center; }
+      .dev-avatar { width: 128px; height: 128px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line-strong); filter: grayscale(100%); }
+      .dev-name { font-family: var(--font-display); font-size: clamp(2.4rem, 6vw, 4.5rem); line-height: 0.98; margin: 14px 0 10px; }
+      .dev-role { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); }
+      .dev-bio { color: var(--paper-muted); max-width: 38rem; line-height: 1.8; margin-top: 20px; }
+      @media (min-width: 720px) { .dev-grid { grid-template-columns: auto 1fr; gap: 48px; } .dev-avatar { width: 160px; height: 160px; } }
+
+      .dev-links { padding: 56px 0 88px; }
+      .links-grid { display: grid; gap: 16px; }
+      @media (min-width: 640px) { .links-grid { grid-template-columns: 1fr 1fr; } }
+      .link-card {
+        display: flex; align-items: center; justify-content: space-between; gap: 20px;
+        padding: 28px; border: 1px solid var(--line); background: var(--ink-soft);
+        transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+      }
+      .link-card:hover { border-color: var(--line-strong); background: var(--ink-raised); }
+      .link-card h3 { font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 4px; color: var(--paper); }
+      .link-card p { color: var(--stone); font-size: 0.9rem; }
+      .link-arrow { color: var(--stone); transition: transform var(--dur) var(--ease), color var(--dur) var(--ease); }
+      .link-card:hover .link-arrow { color: var(--brass); transform: translateX(4px); }
+    </style>
+  </head>
+  <body>
+    <a class="sr-only" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container">
+        <a href="../index.html" class="brand" aria-label="The Behavioral Lab home">TBL<span>.</span></a>
+        <nav class="header-nav" aria-label="Primary">
+          <a href="./books.html">Library</a>
+          <a href="../game/index.html">Vantage</a>
+          <a href="./license.html">License</a>
+          <a href="./developer.html" aria-current="page">Developer</a>
+        </nav>
+        <button class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="site-drawer" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+    <div class="drawer-backdrop" id="drawer-backdrop" data-menu-close></div>
+    <aside class="drawer" id="site-drawer" aria-label="Menu">
+      <div class="drawer-head"><span class="drawer-title">Menu</span><button class="drawer-close" data-menu-close aria-label="Close menu"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+      <div class="drawer-body"><nav class="drawer-links" aria-label="Mobile">
+        <a href="../index.html"><i class="fa-solid fa-house" aria-hidden="true"></i> Home</a>
+        <a href="./books.html"><i class="fa-solid fa-book" aria-hidden="true"></i> Library</a>
+        <a href="../game/index.html"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Vantage</a>
+        <a href="./license.html"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> License</a>
+        <a href="./developer.html"><i class="fa-solid fa-code" aria-hidden="true"></i> Developer</a>
+        <a href="https://chat.whatsapp.com/H2uoDKrlg4oLPKJllQZawc?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+      </nav></div>
+    </aside>
+
+    <main id="main" class="page-main">
+      <section class="dev-hero">
+        <div class="container">
+          <div class="dev-grid">
+            <img class="dev-avatar" src="https://avatars.githubusercontent.com/u/359421932?s=400&u=939132e7813c4045f91e4da9c887f3d7f095a076&v=4" alt="Hanako San avatar" width="160" height="160" />
+            <div>
+              <p class="dev-role hero-animate hero-animate-d1">Creator &amp; Developer</p>
+              <h1 class="dev-name hero-animate hero-animate-d2">Hanako San</h1>
+              <p class="dev-bio hero-animate hero-animate-d3">Building The Behavioral Lab as an open-source archive for psychology and strategy books. The goal is simple: make useful knowledge easy to read, download, and share.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dev-links">
+        <div class="container">
+          <div class="links-grid">
+            <a class="link-card reveal" href="https://github.com/hanako-san-try" target="_blank" rel="noopener noreferrer">
+              <div><h3>GitHub</h3><p>@hanako-san-try</p></div>
+              <i class="fa-solid fa-arrow-right link-arrow" aria-hidden="true"></i>
+            </a>
+            <a class="link-card reveal" href="https://github.com/hanako-san-try/TBL" target="_blank" rel="noopener noreferrer">
+              <div><h3>Source code</h3><p>View the TBL repository</p></div>
+              <i class="fa-solid fa-arrow-right link-arrow" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand"><a href="../index.html" class="brand">TBL<span>.</span></a><p>A free archive of psychology and strategy books.</p></div>
+          <div class="footer-col"><h4>Navigate</h4><ul><li><a href="../index.html">Home</a></li><li><a href="./books.html">Library</a></li><li><a href="../game/index.html">Vantage</a></li></ul></div>
+          <div class="footer-col"><h4>Information</h4><ul><li><a href="./license.html">License</a></li><li><a href="./developer.html">Developer</a></li></ul></div>
+          <div class="footer-col"><h4>Community</h4><ul><li><a href="https://chat.whatsapp.com/H2uoDKrlg4oLPKJllQZawc?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer">WhatsApp</a></li><li><a href="https://github.com/hanako-san-try/TBL" target="_blank" rel="noopener noreferrer">GitHub</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><span>&copy; <span data-year></span> The Behavioral Lab</span><span>Built by <a href="https://github.com/hanako-san-try" target="_blank" rel="noopener noreferrer">Hanako San</a></span></div>
+      </div>
+    </footer>
+    <script src="../js/main.js"></script>
+  </body>
+</html>

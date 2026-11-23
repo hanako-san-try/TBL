@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log in — Vantage by The Behavioral Lab</title>
+  <meta name="description" content="Log in to Vantage and keep your rating, streak, and match history attached to your account." />
+  <meta name="theme-color" content="#080807" />
+  <link rel="icon" href="../assets/logo/favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../css/root.css" data-fallbacks="/public/TBL/css/root.css,/TBL/css/root.css,../../css/root.css,../css/root.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+  <link rel="stylesheet" href="./css/game.css" data-fallbacks="/public/TBL/game/css/game.css,/TBL/game/css/game.css,../game/css/game.css,css/game.css" onerror="(function(l){var a=(l.dataset.fallbacks||'').split(',');var i=+(l.dataset.i||0);if(i<a.length){l.dataset.i=i+1;l.href=a[i];}})(this)" />
+</head>
+<body class="auth-page" data-auth-page>
+  <a class="v-skip" href="#main">Skip to content</a>
+
+  <div class="auth-shell">
+    <aside class="auth-aside" aria-hidden="true">
+      <a class="v-brand" href="./index.html" aria-label="Vantage by The Behavioral Lab">
+        <span class="v-brand-mark">VANTAGE<span>.</span></span>
+        <span class="v-brand-sub">by TBL</span>
+      </a>
+      <div>
+        <p class="v-kicker">Members</p>
+        <h1>Your rating has a <span>memory.</span></h1>
+        <p class="v-lead">Log in to keep your display name, streak, and match record attached to you — not just to this browser.</p>
+        <ul class="auth-note-list">
+          <li>One account, one identity across sessions.</li>
+          <li>Firebase Authentication handles the password.</li>
+          <li>Your match history stays private to this device for now.</li>
+        </ul>
+      </div>
+      <p class="auth-aside-foot">TBL / Vantage / Season 01</p>
+    </aside>
+
+    <main class="auth-main" id="main">
+      <div class="auth-main-inner">
+        <a class="v-btn v-btn-sm auth-back" href="./index.html" aria-label="Back to Vantage"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Arena</a>
+
+        <a class="auth-brand" href="./index.html" aria-label="Vantage home">
+          <span class="v-brand-mark">VANTAGE<span>.</span></span>
+          <span class="v-brand-sub">by TBL</span>
+        </a>
+
+        <span class="auth-mode" data-auth-mode>Checking auth…</span>
+
+        <h1 class="auth-title">Welcome back.</h1>
+        <p class="auth-sub">Pick up your record where you left it. New here? <a href="./signup.html">Create an account</a>.</p>
+
+        <div class="auth-setup" id="setupNotice">
+          <strong>Local demo mode</strong>
+          <p>Firebase is not configured yet, so accounts are stored in this browser. Add your web app config to <code>js/firebase-config.js</code> to switch to real Firebase Authentication.</p>
+        </div>
+
+        <div class="auth-error" id="authError" role="alert"></div>
+        <div class="auth-notice" id="authNotice" role="status"></div>
+
+        <form class="auth-form" id="loginForm" novalidate>
+          <div class="v-field">
+            <label for="email">Email</label>
+            <input class="v-input" id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required />
+          </div>
+          <div class="v-field">
+            <label for="password">Password</label>
+            <input class="v-input" id="password" name="password" type="password" autocomplete="current-password" placeholder="Your password" required />
+          </div>
+          <div class="auth-form-row">
+            <button class="auth-link" id="forgotLink" type="button" style="background:none;border:0;padding:0;cursor:pointer">Forgot password?</button>
+            <span class="auth-hint">At least 8 characters</span>
+          </div>
+          <button class="v-btn v-btn-signal v-btn-block auth-submit" type="submit" id="submitBtn">Log in</button>
+        </form>
+
+        <div class="auth-divider">or</div>
+
+        <button class="auth-google" id="googleBtn" type="button">
+          <i class="fa-brands fa-google" aria-hidden="true"></i>
+          Continue with Google
+        </button>
+
+        <p class="auth-foot">No account yet? <a href="./signup.html" id="signupLink">Create one in under a minute</a>.</p>
+        <p class="auth-legal">By continuing you agree to keep the arena civil. Vantage is a free experiment by The Behavioral Lab.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="./js/game-common.js"></script>
+  <script src="./js/firebase-config.js"></script>
+  <script src="./js/vantage-auth.js"></script>
+  <script src="./js/game-ui.js"></script>
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const nextParam = params.get('next');
+      const next = nextParam && !/^https?:|^\/\//i.test(nextParam) ? nextParam : './profile.html';
+      const form = document.getElementById('loginForm');
+      const email = document.getElementById('email');
+      const password = document.getElementById('password');
+      const errorBox = document.getElementById('authError');
+      const noticeBox = document.getElementById('authNotice');
+      const submit = document.getElementById('submitBtn');
+      const google = document.getElementById('googleBtn');
+      const setup = document.getElementById('setupNotice');
+      const signupLink = document.getElementById('signupLink');
+
+      signupLink.href = './signup.html?next=' + encodeURIComponent(next);
+
+      function showError(message) {
+        errorBox.textContent = message;
+        errorBox.classList.add('is-on');
+        noticeBox.classList.remove('is-on');
+      }
+      function clearError() {
+        errorBox.classList.remove('is-on');
+        errorBox.textContent = '';
+      }
+      function showNotice(message) {
+        noticeBox.textContent = message;
+        noticeBox.classList.add('is-on');
+      }
+      function loading(on, label) {
+        submit.disabled = on;
+        google.disabled = on;
+        submit.textContent = on ? (label || 'Working…') : 'Log in';
+      }
+      function go() {
+        window.location.href = next;
+      }
+
+      document.getElementById('forgotLink').addEventListener('click', async () => {
+        clearError();
+        const address = email.value.trim();
+        if (!address) {
+          showError('Enter your email first, then tap “Forgot password?”.');
+          email.focus();
+          return;
+        }
+        try {
+          const message = await VantageAuth.sendPasswordReset(address);
+          showNotice(message);
+        } catch (error) {
+          showError(VantageAuth.friendlyError(error));
+        }
+      });
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        clearError();
+        const address = email.value.trim();
+        const secret = password.value;
+        if (!address) { showError('Enter your email address.'); email.focus(); return; }
+        if (!secret) { showError('Enter your password.'); password.focus(); return; }
+        loading(true, 'Checking…');
+        try {
+          await VantageAuth.signIn({ email: address, password: secret });
+          go();
+        } catch (error) {
+          showError(VantageAuth.friendlyError(error));
+          loading(false);
+          password.focus();
+          password.select();
+        }
+      });
+
+      google.addEventListener('click', async () => {
+        clearError();
+        loading(true, 'Opening Google…');
+        try {
+          await VantageAuth.signInWithGoogle();
+          go();
+        } catch (error) {
+          showError(VantageAuth.friendlyError(error));
+          loading(false);
+        }
+      });
+
+      VantageAuth.ready().then(() => {
+        setup.classList.toggle('is-on', VantageAuth.mode === 'demo');
+        if (VantageAuth.currentUser) {
+          showNotice(`Already signed in as ${VantageAuth.currentUser.email || VantageAuth.currentUser.displayName}. Continue to your profile.`);
+          const link = document.createElement('a');
+          link.href = next;
+          link.className = 'v-btn v-btn-sm';
+          link.style.marginTop = '10px';
+          link.textContent = 'Continue';
+          noticeBox.appendChild(document.createElement('br'));
+          noticeBox.appendChild(link);
+        }
+      });
+
+    })();
+  </script>
+</body>
+</html>
